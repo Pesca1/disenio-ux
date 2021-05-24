@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Template from "./Template";
 import {
     unstable_Form as Form,
@@ -10,6 +10,8 @@ import {
 } from 'reakit';
 
 const AddressScreen = (props) => {
+
+    const [ bigFont, setBigFont ] = useState(props.location && props.location.state && props.location.state.bigFont || false);
     const formProps = useFormState({
         baseId: 'address-form',
         values: { calle: '', numero: '', ciudad: '', provincia: '', pais: '' },
@@ -27,40 +29,40 @@ const AddressScreen = (props) => {
         },
         onSubmit: (values) => {
             console.log("SUBMIT")
-            props.history.push('/address-selection', { ...values });
+            props.history.push('/address-selection', { ...values, bigFont });
         }
     });
 
     return (
-        <Template
-            goBack={() => props.history.push('/')}
+        <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
+            goBack={() => props.history.push('/', { bigFont })}
             title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}>
             <h3>Ingresá tu domicilio</h3>
             <div className='description'>
                 <Form {...formProps}>
                     <FormLabel {...formProps} name='calle'>Calle</FormLabel>
                     <br/>
-                    <FormInput {...formProps} name='calle' />
-                    <FormMessage {...formProps} name='calle' />
+                    <FormInput {...formProps} name='calle' placeholder="Av. 7" />
+                    <FormMessage {...formProps} name='calle'/>
                     <br/>
                     <FormLabel {...formProps} name='numero'>Número</FormLabel>
                     <br/>
-                    <FormInput {...formProps} name='numero' />
+                    <FormInput {...formProps} name='numero' placeholder="815" />
                     <FormMessage {...formProps} name='numero' />
                     <br/>
                     <FormLabel {...formProps} name='ciudad'>Ciudad</FormLabel>
                     <br/>
-                    <FormInput {...formProps} name='ciudad' />
+                    <FormInput {...formProps} name='ciudad' placeholder="La Plata" />
                     <FormMessage {...formProps} name='ciudad' />
                     <br/>
                     <FormLabel {...formProps} name='provincia'>Provincia</FormLabel>
                     <br/>
-                    <FormInput {...formProps} name='provincia' />
+                    <FormInput {...formProps} name='provincia' placeholder="Buenos Aires"/>
                     <FormMessage {...formProps} name='provincia' />
                     <br/>
                     <FormLabel {...formProps} name='pais'>País</FormLabel>
                     <br/>
-                    <FormInput {...formProps} name='pais' />
+                    <FormInput {...formProps} name='pais'  placeholder="Argentina"/>
                     <FormMessage {...formProps} name='pais' />
                     <br/>
                     <div className='center-content mt-1'>

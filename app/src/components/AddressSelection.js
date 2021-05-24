@@ -19,12 +19,15 @@ export default class AddressSelection extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            bigFont: this.props.location && this.props.location.state && this.props.location.state.bigFont || false,
             loading: true,
             result: [],
             selectedMarker: null,
             addressNotFound: false,
         }
     }
+
+    toggleBigFont = () => this.setState({ bigFont: !this.state.bigFont });
 
     getGeoCodeUrl = () => {
         return GEOCODE_URL +
@@ -68,12 +71,12 @@ export default class AddressSelection extends React.Component {
     }
 
     calculatePath = () => {
-        this.props.history.push('/path-selection', { ...this.state.selectedMarker })
+        this.props.history.push('/path-selection', { ...this.state.selectedMarker, bigFont: this.state.bigFont })
     }
 
     render = () => (
-        <Template
-            goBack={() => this.props.history.push('/address')}
+        <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
+            goBack={() => this.props.history.push('/address', { bigFont: this.state.bigFont })}
             title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
             containerClass='map-container'>
             <h3>Seleccioná tu domicilio en el mapa</h3>

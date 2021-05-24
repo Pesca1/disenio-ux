@@ -1,3 +1,5 @@
+@import "./assets/icomoon/style.css";
+
 .background {
   background: linear-gradient(rgba(150, 150, 150, .25), rgba(150, 150, 150, .25)),
     url("./assets/images/Google-Maps.jpg");
@@ -6,7 +8,7 @@
   margin: 0;
   background-size: cover;
   padding-top: 0.67em;
-  padding-bottom: 5em;
+  padding-bottom: 10em;
   text-align: center;
 }
 
@@ -23,6 +25,14 @@
 .container.main {
   padding: 15px 30px 15px 30px;
   width: 460px;
+}
+
+.bigger-font .container {
+  font-size: large;
+}
+
+.bigger-font .container h3 {
+  font-size: x-large;
 }
 
 .page-title {
@@ -46,6 +56,10 @@
     margin-top: 10px !important;
 }
 
+.bigger-font .button {
+  font-size: 18px;
+}
+
 .button {
   outline: 0;
   color: #ffffff;
@@ -56,6 +70,7 @@
   border-radius: 0.25rem;
   cursor: pointer;
   font-size: 16px;
+  margin-bottom: 10px;
 }
 
 .button:focus {
@@ -78,6 +93,14 @@
    background-color: #0062e6;
 }
 
+.button.selected, .button.selected:focus, .button.selected:not([disabled]):hover, .button.selected:not([aria-disabled="true"]):hover
+.button.selected:not([disabled]):active, .button.selected[data-active="true"]:not([disabled]) ,
+.button.selected:not([aria-disabled="true"]):active, .button.selected[data-active="true"]:not([aria-disabled="true"]) {
+  color: #173316;
+  background: #00ff55;
+  box-shadow: 0 0 0 0.2em rgba(9, 255, 0, 0.4);
+}
+
 .button:not([disabled]):active, .button[data-active="true"]:not([disabled]) ,
 .button:not([aria-disabled="true"]):active, .button[data-active="true"]:not([aria-disabled="true"]) {
    color: #ffffff;
@@ -85,16 +108,30 @@
 }
 
 .go-back {
-    padding-top: 15px;
     width: 50px;
-    height: 35px;
+    height: 50px;
     background-color: #e8e8e8;
     border-radius: 100px;
     cursor: pointer;
     position: absolute;
-    top: 50px;
+    top: 45px;
     border: 2px solid;
     left: 50px;
+}
+
+.font-size-option {
+  padding: 10px;
+  background-color: #e8e8e8;
+  border-radius: 15px;
+  cursor: pointer;
+  position: absolute;
+  top: 45px;
+  right: 50px;
+  border: 2px solid;
+}
+
+.font-size-option h4 {
+  display: inline;
 }
 
 .container.map-container {
@@ -123,4 +160,77 @@
 .custom-marker.blue {
     background:blue;
     border:5px solid rgba(255,255,255,0.5);
+}
+
+form div[role='alert']:not(:empty) {
+  padding: 3px;
+  border: 1px dashed rgb(78, 0, 0);
+  background-color: rgb(255, 126, 126);
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+.leaflet-control-easyPrint {
+  /*visibility: hidden;*/
+}
+
+@media (max-width: 780px) {
+  .container {
+    width: calc(100% - 30px);
+  }
+
+  .container.main {
+    width: calc(100% - 70px);
+  }
+
+  .font-size-option, .go-back {
+    border: none;
+  }
+}
+
+@media (max-width: 570px) {
+  .background {
+    padding-bottom: 20em;
+  }
+
+  h2.page-title {
+    font-size: 15px;
+  }
+
+  .go-back {
+    top: 31px;
+    left: 15px;
+  }
+
+  .font-size-option {
+    top: 35px;
+    right: 15px;
+    background-color: transparent;
+  }
+}
+
+@media (max-width:  360px) {
+  .go-back {
+    top: 41px;
+    left: 15px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media (max-width: 325px) {
+  .go-back, .font-size-option {
+    top: 90px;
+    border: 2px solid;
+  }
+
+  .font-size-option {
+    background-color: #e8e8e8;
+    padding: 2px 4px 2px 4px;
+    border-radius: 10px;
+  }
+
+  .container.title-container {
+    margin-bottom: 23px;
+  }
 }

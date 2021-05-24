@@ -23,14 +23,18 @@ const PrintControl = withLeaflet(PrintControlDefault);
 export default class PathSelection extends React.Component {
     constructor(props) {
         super(props);
+        let bigFont = this.props.location && this.props.location.state && this.props.location.state.bigFont || false;
         this.state = {
             loading: true,
             routes: {},
             mouseOverPath: null,
             selectedPath: null,
-            print: false
+            print: false,
+            bigFont
         }
     }
+
+    toggleBigFont = () => this.setState({ bigFont: !this.state.bigFont });
 
     componentDidMount() {
         if (!!this.props.location && !!this.props.location.state) {
@@ -82,9 +86,13 @@ export default class PathSelection extends React.Component {
         || this.state.mouseOverPath === key
     )
 
+    print = () => {
+        this.printControl.printMap('A4Landscape page', 'Plan de evacuacion')
+    }
+
     render = () => (
-        <Template
-            goBack={() => this.props.history.push('/address-selection')}
+        <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
+            goBack={() => this.props.history.push('/address-selection', { bigFont: this.state.bigFont })}
             title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
             containerClass='map-container'>
             { !this.state.print ?
@@ -107,23 +115,30 @@ export default class PathSelection extends React.Component {
                         style={() => this.getGeoJSONStyles(key)}
                     />
                 )}
-                { this.state.print &&
-                    <PrintControl position="topleft" sizeModes={['Current']} hideControlContainer={false}/>
-                }
+                
+                <PrintControl ref={(ref) => { this.printControl = ref; }} position="topleft" sizeModes={['Current']} hideControlContainer={false}/>
+                
             </Map>
             <br/>
             { Object.keys(this.state.routes).filter(key => !this.state.print || key === this.state.selectedPath).map(key =>
                 <>
-                <Button className='button inline' onClick={() => this.setState({ selectedPath: key })}>{DESTINATIONS[key].name}</Button>
+                <Button 
+                    className={'button inline '+(this.state.selectedPath === key ? 'selected' : '')} 
+                    onClick={() => this.setState({ selectedPath: key })}>
+                        {DESTINATIONS[key].name}
+                    </Button>
                 </>
             ) }
             <br/>
             <br/>
             { !!this.state.selectedPath && !this.state.print &&
-                <Button className='button' onClick={() => this.setState({ print: true })}>Imprimir camino</Button>
+                <Button className='button' onClick={() => this.setState({ print: true })}>Seleccionar camino</Button>
             }
             { !!this.state.selectedPath && this.state.print &&
+            <>
+                {/*<Button className='button' onClick={this.print}>Imprimir</Button>*/}
                 <Button className='button' onClick={() => this.setState({ print: false })}>Ver todos los caminos</Button>
+            </>
             }
         </Template>
     )
