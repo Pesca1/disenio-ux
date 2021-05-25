@@ -5,15 +5,21 @@ import AddressScreen from "./components/AddressScreen";
 import AddressSelection from "./components/AddressSelection";
 import PathSelection from "./components/PathSelection";
 
+import { Helmet } from 'react-helmet';
+
 function App() {
   return (
     <BrowserRouter>
+      <Helmet>
+        <html lang="es" />
+      </Helmet>
       <Switch>
         <Route path='/path-selection' component={PathSelection}/>
         <Route path='/address-selection' component={AddressSelection}/>
         <Route path='/address' component={AddressScreen} />
         <Route path='/' component={MainScreen} />
       </Switch>
+      
     </BrowserRouter>
   );
 }

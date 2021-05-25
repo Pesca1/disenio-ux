@@ -96,9 +96,9 @@ export default class PathSelection extends React.Component {
             title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
             containerClass='map-container'>
             { !this.state.print ?
-                <h3>Seleccioná tu camino de evacuación</h3>
+                <h2>Seleccioná tu camino de evacuación</h2>
                 :
-                <h3>Visualizá la parte del camino que querés imprimir</h3>
+                <h2>Visualizá la parte del camino que querés imprimir</h2>
             }
             <Map
                 center={[-34.911804, -57.954493]} zoom={13}

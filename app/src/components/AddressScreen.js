@@ -6,7 +6,8 @@ import {
     unstable_FormInput as FormInput,
     unstable_FormMessage as FormMessage,
     unstable_FormSubmitButton as FormSubmitButton,
-    unstable_useFormState as useFormState
+    unstable_useFormState as useFormState,
+    Role
 } from 'reakit';
 
 const AddressScreen = (props) => {
@@ -37,8 +38,8 @@ const AddressScreen = (props) => {
         <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
             goBack={() => props.history.push('/', { bigFont })}
             title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}>
-            <h3>Ingresá tu domicilio</h3>
-            <div className='description'>
+            <h2>Ingresá tu domicilio</h2>
+            <div className='description'>                
                 <Form {...formProps}>
                     <FormLabel {...formProps} name='calle'>Calle</FormLabel>
                     <br/>
@@ -69,6 +70,7 @@ const AddressScreen = (props) => {
                         <FormSubmitButton {...formProps} className='button'>Buscar mi dirección!</FormSubmitButton>
                     </div>
                 </Form>
+                
             </div>
         </Template>
     );

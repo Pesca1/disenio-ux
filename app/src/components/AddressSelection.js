@@ -79,7 +79,7 @@ export default class AddressSelection extends React.Component {
             goBack={() => this.props.history.push('/address', { bigFont: this.state.bigFont })}
             title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
             containerClass='map-container'>
-            <h3>Seleccioná tu domicilio en el mapa</h3>
+            <h2>Seleccioná tu domicilio en el mapa</h2>
             <Map
                 center={[-34.911804, -57.954493]} zoom={13}
                 crollWheelZoom={true} onClick={this.pointInMap}>

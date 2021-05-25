@@ -25,7 +25,7 @@ export default class MainScreen extends React.Component {
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
             title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
             extraContent={this.renderExtraContent()}>
-            <h3>Prevención</h3>
+            <h2>Prevención</h2>
             <p className='description'>
                 Lorem ipsum dolor sit amenLorem ipsum dolor sit amenLorem ipsum dolor sit amenLorem ipsum dolor sit amen
             </p>

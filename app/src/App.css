@@ -35,6 +35,14 @@
   font-size: x-large;
 }
 
+.bigger-font .container h4 {
+  font-size: x-large;
+}
+
+.bigger-font .button {
+  font-size: large;
+}
+
 .page-title {
   margin: 0;
 }
