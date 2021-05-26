@@ -141,7 +141,7 @@ export default class AddressSelection extends React.Component {
             goBack={() => this.props.history.push('/address', { bigFont: this.state.bigFont })}
             containerClass='map-container'>
             {this.renderTitle()}
-            <h2>Podés navegar con las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h2>
+            <h2>Podés navegar con el mouse o las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h2>
             <Map
                 center={this.state.center} zoom={this.state.zoom}
                 crollWheelZoom={true} onClick={this.pointInMap}>
@@ -171,14 +171,14 @@ export default class AddressSelection extends React.Component {
             { (!this.state.addressNotFound && !this.state.addressSearchSkipped) && this.state.results.length > 0 &&
                 <>
                     <Button
-                        onClick={this.calculatePath}
-                        className='button positive'>
-                        Sí! Mi domicilio es el indicado
-                    </Button>
-                    <Button
                         onClick={() => this.setState({addressNotFound: true, selectedMarker: null})}
                         className='button negative'>
                         No :( Mi domicilio no está en el mapa
+                    </Button>
+                    <Button
+                        onClick={this.calculatePath}
+                        className='button positive'>
+                        Sí! Mi domicilio es el indicado
                     </Button>
                 </>
             }

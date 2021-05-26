@@ -180,8 +180,8 @@ export default class PathSelection extends React.Component {
             }
             { !!this.state.selectedPath && this.state.print &&
             <>
-                <Button className='button' onClick={this.print}>Imprimir</Button>
-                <Button className='button' onClick={() => this.setState({ print: false })}>Ver todos los caminos</Button>
+                <Button className='button' onClick={() => this.setState({ print: false })}>Ver de vuelta los caminos</Button>
+                <Button className='button' onClick={this.print}>Imprimir y finalizar</Button>
             </>
             }
         </Template>
