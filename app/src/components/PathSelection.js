@@ -139,7 +139,7 @@ export default class PathSelection extends React.Component {
 
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
-            goBack={() => this.props.history.push('/address-selection', { bigFont: this.state.bigFont })}
+            goBack={() => {this.props.history.push('/address-selection', { bigFont: this.state.bigFont }); window.location.reload()}}
             containerClass='map-container'>
             { !this.state.print ?
                 <h1>Seleccioná tu camino de evacuación</h1>

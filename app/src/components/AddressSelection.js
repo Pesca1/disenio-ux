@@ -143,7 +143,7 @@ export default class AddressSelection extends React.Component {
 
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
-            goBack={() => this.props.history.push('/address', { bigFont: this.state.bigFont })}
+            goBack={() => {this.props.history.push('/address', { bigFont: this.state.bigFont }); window.location.reload()}}
             containerClass='map-container'>
             {this.renderTitle()}
             <h2>Podés navegar con el mouse o las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h2>

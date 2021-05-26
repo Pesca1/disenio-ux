@@ -47,7 +47,7 @@ const AddressScreen = (props) => {
 
     return (
         <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
-            goBack={() => props.history.push('/', { bigFont })}>
+            goBack={() => {props.history.push('/', { bigFont }); window.location.reload()}}>
             <h1>Ingresá tu domicilio</h1>
             <div className='description'>                
                 <Form {...formProps}>
