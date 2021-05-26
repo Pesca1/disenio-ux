@@ -20,10 +20,13 @@ export default class AddressSelection extends React.Component {
         super(props);
         this.state = {
             bigFont: this.props.location && this.props.location.state && this.props.location.state.bigFont || false,
-            loading: true,
-            result: [],
+            loading: !(this.props.location && this.props.location.state && this.props.location.state.skipSearch || false),
+            results: [],
             selectedMarker: null,
             addressNotFound: false,
+            center: [-34.911804, -57.954493],
+            zoom: 13,
+            addressSearchSkipped: this.props.location && this.props.location.state && this.props.location.state.skipSearch || false
         }
     }
 
@@ -38,19 +41,69 @@ export default class AddressSelection extends React.Component {
     }
 
     componentDidMount = async () => {
-        if (!!this.props.location && !!this.props.location.state) {
+        if (!!this.props.location && !!this.props.location.state && !this.state.addressSearchSkipped) {
             console.log("[CONFIRM_ADDRESS] URL:", this.getGeoCodeUrl());
             axios.get(this.getGeoCodeUrl()).then(response => {
                 console.log("[CONFIRM_ADDRESS] Geocoding was successful: ", response);
+                let marker = (response.data.length > 0) ? { lat: parseFloat(response.data[0].lat), lon: parseFloat(response.data[0].lon) } : null;
                 this.setState({
                     loading: false,
-                    results: response.data
+                    results: response.data,
+                    addressNotFound: response.data.length === 0,
+                    selectedMarker: marker,
+                    center: response.data.length === 0 ? this.state.center : [response.data[0].lat, response.data[0].lon]
                 })
             }).catch(response => {
                 console.log("[CONFIRM_ADDRESS] Error while geocoding: ", response);
                 alert("Ocurrió un error al intentar ubicar su dirección!")
             })
         }
+
+        document.onkeydown = this.checkKey;
+        document.title = "Selección de domicilio - Prevención de inundaciones"
+    }
+
+    checkKey = (e) => {
+        let [ lat, lon ] = this.state.center;
+        let zoom = this.state.zoom;
+        let multiplier = (zoom >= 15)? zoom : zoom/15;
+        e = e || window.event;
+        if (e.keyCode == '38') {
+            // up arrow
+            lat += 0.005/multiplier;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '40') {
+            // down arrow
+            lat -= 0.005/multiplier;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '37') {
+            // left arrow
+            lon -= 0.005/multiplier;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '39') {
+            // right arrow
+            lon += 0.005/multiplier;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '109') {
+            // minus
+            zoom -= 1;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '107') {
+            // plus
+            zoom += 1;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '13' && (this.state.addressSearchSkipped || this.state.addressNotFound)) {
+            // enter
+            this.setState({ selectedMarker: {lat, lon} })
+            e.preventDefault();
+        }
+        this.setState({ center: [lat, lon], zoom })
     }
 
     selectAddress = (event) => {
@@ -64,48 +117,46 @@ export default class AddressSelection extends React.Component {
     }
 
     pointInMap = (event) => {
-        if (this.state.addressNotFound)
+        if (this.state.addressNotFound || this.state.addressSearchSkipped)
             this.setState({ selectedMarker: { lat: event.latlng.lat, lon: event.latlng.lng } })
-        else
-            this.setState({ selectedMarker: null })
     }
 
     calculatePath = () => {
         this.props.history.push('/path-selection', { ...this.state.selectedMarker, bigFont: this.state.bigFont })
     }
 
+    renderTitle = () => {
+        if (this.state.addressSearchSkipped)
+            return <h2>¿Podrías señalar tu domicilio en el mapa?</h2>;
+        if (this.state.loading || !this.state.addressNotFound)
+            return <h2>¿Tu domicilio es el marcado en el mapa?</h2>;
+        else if (this.state.addressNotFound && this.state.results.length === 0)
+            return <h2>No encontramos tu domicilio :(<br/> ¿Podrías señalarlo en el mapa?</h2>;
+        else
+            return <h2>¿Podrías señalar tu domicilio en el mapa?</h2>;
+    }
+
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
             goBack={() => this.props.history.push('/address', { bigFont: this.state.bigFont })}
-            title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
             containerClass='map-container'>
-            <h2>Seleccioná tu domicilio en el mapa</h2>
+            {this.renderTitle()}
+            <h4>Podés navegar con las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h4>
             <Map
-                center={[-34.911804, -57.954493]} zoom={13}
+                center={this.state.center} zoom={this.state.zoom}
                 crollWheelZoom={true} onClick={this.pointInMap}>
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                { !this.state.loading && !this.state.addressNotFound &&
-                    this.state.results.map(result => (
-                        this.isMarkerSelected(parseFloat(result.lat), parseFloat(result.lon)) ?
+                { !this.state.loading && !this.state.addressNotFound && this.state.results.length > 0 &&
                             <Marker
-                                key={result.lat + " " + result.lon}
-                                position={[parseFloat(result.lat), parseFloat(result.lon)]}
-                                onClick={this.selectAddress}
-                                icon={RedIcon}
-                            />
-                            :
-                            <Marker
-                                key={result.lat + " " + result.lon}
-                                position={[parseFloat(result.lat), parseFloat(result.lon)]}
-                                onClick={this.selectAddress}
+                                key={this.state.results[0].lat + " " + this.state.results[0].lon}
+                                position={[parseFloat(this.state.results[0].lat), parseFloat(this.state.results[0].lon)]}
                                 icon={BlueIcon}
                             />
-                    ))
                 }
-                { !this.state.loading && this.state.addressNotFound && this.state.selectedMarker != null &&
+                { !this.state.loading && (this.state.addressNotFound || this.state.addressSearchSkipped) && this.state.selectedMarker != null &&
                     <Marker
                         key={this.state.selectedMarker.lat + " " + this.state.selectedMarker.lon}
                         position={[this.state.selectedMarker.lat, this.state.selectedMarker.lon]}
@@ -113,16 +164,23 @@ export default class AddressSelection extends React.Component {
                     />
                 }
             </Map>
-            { this.state.selectedMarker != null &&
-                <Button className='button' onClick={this.calculatePath}>Esta es mi dirección</Button>
+            { (this.state.addressNotFound || this.state.addressSearchSkipped) && this.state.selectedMarker != null &&
+            <Button className='button' onClick={this.calculatePath}>Este es mi domicilio</Button>
             }
             <br/>
-            { !this.state.addressNotFound &&
-                <Button
-                    onClick={() => this.setState({addressNotFound: true, selectedMarker: null})}
-                    className='button'>
-                    Mi dirección no está en el mapa :(
-                </Button>
+            { (!this.state.addressNotFound && !this.state.addressSearchSkipped) && this.state.results.length > 0 &&
+                <>
+                    <Button
+                        onClick={this.calculatePath}
+                        className='button positive'>
+                        Sí! Mi domicilio es el indicado
+                    </Button>
+                    <Button
+                        onClick={() => this.setState({addressNotFound: true, selectedMarker: null})}
+                        className='button negative'>
+                        No :( Mi domicilio no está en el mapa
+                    </Button>
+                </>
             }
         </Template>
     )

@@ -6,6 +6,7 @@ import AddressSelection from "./components/AddressSelection";
 import PathSelection from "./components/PathSelection";
 
 import { Helmet } from 'react-helmet';
+import ThankYou from "./components/ThankYou";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <html lang="es" />
       </Helmet>
       <Switch>
+        <Route path='/thank-you' component={ThankYou}/>
         <Route path='/path-selection' component={PathSelection}/>
         <Route path='/address-selection' component={AddressSelection}/>
         <Route path='/address' component={AddressScreen} />

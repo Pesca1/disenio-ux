@@ -10,6 +10,10 @@ export default class MainScreen extends React.Component {
         this.state = { bigFont }
     }
 
+    componentDidMount() {
+        document.title = "Prevención de Inundaciones";
+    }
+
     toggleBigFont = () => this.setState({ bigFont: !this.state.bigFont });
 
     renderExtraContent = () => (

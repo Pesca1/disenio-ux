@@ -51,6 +51,8 @@ export default class PathSelection extends React.Component {
                 })
             })
         }
+
+        document.title = "Camino de evacuación - Prevención de inundaciones"
     }
 
     getRoute = (startLongitude, startLatitude, endLongitude, endLatitude) => {
@@ -77,7 +79,7 @@ export default class PathSelection extends React.Component {
         return {
             weight: this.highlightKey(key)? 7 : 5,
             fillColor: COLORS[key],
-            color: this.highlightKey(key)? "#2f52ff" : COLORS[key]
+            color: this.highlightKey(key)? "#0b35fc" : ((!!this.state.selectedPath || !!this.state.mouseOverPath) ? "grey" : COLORS[key])
         }
     }
 
@@ -86,39 +88,81 @@ export default class PathSelection extends React.Component {
         || this.state.mouseOverPath === key
     )
 
+    checkKey = (e) => {
+        let [ lat, lon ] = this.state.center;
+        let zoom = this.state.zoom;
+        let multiplier = (zoom >= 15)? zoom : zoom/15;
+        e = e || window.event;
+        if (e.keyCode == '38') {
+            // up arrow
+            lat += 0.005/multiplier;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '40') {
+            // down arrow
+            lat -= 0.005/multiplier;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '37') {
+            // left arrow
+            lon -= 0.005/multiplier;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '39') {
+            // right arrow
+            lon += 0.005/multiplier;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '109') {
+            // minus
+            zoom -= 1;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '107') {
+            // plus
+            zoom += 1;
+            e.preventDefault();
+        }
+        else if (e.keyCode == '13' && (this.state.addressSearchSkipped || this.state.addressNotFound)) {
+            // enter
+            this.setState({ selectedMarker: {lat, lon} })
+            e.preventDefault();
+        }
+        this.setState({ center: [lat, lon], zoom })
+    }
+
     print = () => {
-        this.printControl.printMap('A4Landscape page', 'Plan de evacuacion')
+        window.print();
+        this.props.history.push('/thank-you', { bigFont: this.state.bigFont });
     }
 
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
             goBack={() => this.props.history.push('/address-selection', { bigFont: this.state.bigFont })}
-            title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
             containerClass='map-container'>
             { !this.state.print ?
                 <h2>Seleccioná tu camino de evacuación</h2>
                 :
                 <h2>Visualizá la parte del camino que querés imprimir</h2>
             }
-            <Map
-                center={[-34.911804, -57.954493]} zoom={13}
-                crollWheelZoom={true} onClick={this.pointInMap}>
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                { Object.keys(this.state.routes).filter(key => !this.state.print || key === this.state.selectedPath).map(key =>
-                    <GeoJSON
-                        key={key}
-                        data={this.state.routes[key]}
-                        onEachFeature={(feature, layer) => this.onEachFeature(feature, layer, key)}
-                        style={() => this.getGeoJSONStyles(key)}
+            <div id='map-container'>
+                <Map
+                    center={[-34.911804, -57.954493]} zoom={13}
+                    crollWheelZoom={true} onClick={this.pointInMap}>
+                    <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                )}
-                
-                <PrintControl ref={(ref) => { this.printControl = ref; }} position="topleft" sizeModes={['Current']} hideControlContainer={false}/>
-                
-            </Map>
+                    { Object.keys(this.state.routes).filter(key => !this.state.print || key === this.state.selectedPath).map(key =>
+                        <GeoJSON
+                            key={key}
+                            data={this.state.routes[key]}
+                            onEachFeature={(feature, layer) => this.onEachFeature(feature, layer, key)}
+                            style={() => this.getGeoJSONStyles(key)}
+                        />
+                    )}
+                </Map>
+            </div>
             <br/>
             { Object.keys(this.state.routes).filter(key => !this.state.print || key === this.state.selectedPath).map(key =>
                 <>
@@ -136,7 +180,7 @@ export default class PathSelection extends React.Component {
             }
             { !!this.state.selectedPath && this.state.print &&
             <>
-                {/*<Button className='button' onClick={this.print}>Imprimir</Button>*/}
+                <Button className='button' onClick={this.print}>Imprimir</Button>
                 <Button className='button' onClick={() => this.setState({ print: false })}>Ver todos los caminos</Button>
             </>
             }

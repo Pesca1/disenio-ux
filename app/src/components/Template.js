@@ -7,8 +7,8 @@ export default class Template extends React.Component {
             { this.props.goBack &&
             <Button className='go-back' onClick={this.props.goBack}>                
                 <h4>
+                    <i className='icon-arrow-left2' />
                     Volver
-                <i className='icon-arrow-left2' />
                 </h4>
             </Button>
             }
@@ -26,12 +26,16 @@ export default class Template extends React.Component {
                     </label>
                 </div>
             }
+            {this.props.title &&
+            <>
             <div className='container title-container'>
                 <h1 className='page-title'>
                     {this.props.title}
                 </h1>
             </div>
             <br/>
+            </>
+            }
             <div className={`main container ${this.props.containerClass}`}>
                 {this.props.children}
             </div>

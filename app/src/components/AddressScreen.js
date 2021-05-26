@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Template from "./Template";
 import {
     unstable_Form as Form,
@@ -7,7 +7,7 @@ import {
     unstable_FormMessage as FormMessage,
     unstable_FormSubmitButton as FormSubmitButton,
     unstable_useFormState as useFormState,
-    Role
+    Button
 } from 'reakit';
 
 const AddressScreen = (props) => {
@@ -29,15 +29,17 @@ const AddressScreen = (props) => {
                 throw { pais: 'Ingrese la pais' }
         },
         onSubmit: (values) => {
-            console.log("SUBMIT")
             props.history.push('/address-selection', { ...values, bigFont });
         }
     });
 
+    useEffect(() => {
+        document.title = "Ingresar domicilio - Prevención de inundaciones"
+    })
+
     return (
         <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
-            goBack={() => props.history.push('/', { bigFont })}
-            title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}>
+            goBack={() => props.history.push('/', { bigFont })}>
             <h2>Ingresá tu domicilio</h2>
             <div className='description'>                
                 <Form {...formProps}>
@@ -67,7 +69,9 @@ const AddressScreen = (props) => {
                     <FormMessage {...formProps} name='pais' />
                     <br/>
                     <div className='center-content mt-1'>
-                        <FormSubmitButton {...formProps} className='button'>Buscar mi dirección!</FormSubmitButton>
+                        <FormSubmitButton {...formProps} className='button'>Buscar mi domicilio!</FormSubmitButton>
+                        <br/>
+                        <Button className='button' onClick={() => props.history.push('/address-selection', { skipSearch: true, bigFont })}>Señalar mi domicilio en el mapa</Button>
                     </div>
                 </Form>
                 
