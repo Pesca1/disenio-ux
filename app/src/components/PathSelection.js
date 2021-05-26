@@ -134,6 +134,7 @@ export default class PathSelection extends React.Component {
     print = () => {
         window.print();
         this.props.history.push('/thank-you', { bigFont: this.state.bigFont });
+        window.location.reload()
     }
 
     render = () => (

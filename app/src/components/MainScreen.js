@@ -3,6 +3,7 @@ import Template from "./Template";
 import {Button} from "reakit";
 
 
+
 export default class MainScreen extends React.Component {
     constructor(props) {
         super(props);
@@ -24,6 +25,10 @@ export default class MainScreen extends React.Component {
             </p>
         </>
     )
+    goTo = (pathName, pathParams) => {
+        this.props.history.push('/'+pathName, pathParams) 
+        window.location.reload()
+    }
 
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
@@ -31,9 +36,9 @@ export default class MainScreen extends React.Component {
             extraContent={this.renderExtraContent()}>
             <h2>Prevención</h2>
             <p className='description'>
-                Lorem ipsum dolor sit amenLorem ipsum dolor sit amenLorem ipsum dolor sit amenLorem ipsum dolor sit amen
+                Durante una inundación es importante saber a dónde ir en caso de precisa ayuda. Esta aplicación sirve para visualizar e imprimir caminos hacia algunos de los centros de evacuación. 
             </p>
-            <Button className='button' onClick={() => this.props.history.push('/address', { bigFont: this.state.bigFont })}>
+            <Button className='button' onClick={() => this.goTo('address', { bigFont: this.state.bigFont })}>
                 Comencemos!
             </Button>
         </Template>

@@ -12,6 +12,9 @@ const START_POINT = { longitude: -57.969767, latitude: -34.915290 }
 const END_POINT = { longitude: -57.951671, latitude: -34.941450 }
 const PROFILE = "driving-car"
 
+
+            
+
 /* Nominatim */
 const GEOCODE_URL = "https://nominatim.openstreetmap.org/search.php?polygon_geojson=1&format=jsonv2";
 
@@ -41,6 +44,7 @@ export default class AddressSelection extends React.Component {
     }
 
     componentDidMount = async () => {
+        
         if (!!this.props.location && !!this.props.location.state && !this.state.addressSearchSkipped) {
             console.log("[CONFIRM_ADDRESS] URL:", this.getGeoCodeUrl());
             axios.get(this.getGeoCodeUrl()).then(response => {
@@ -123,6 +127,7 @@ export default class AddressSelection extends React.Component {
 
     calculatePath = () => {
         this.props.history.push('/path-selection', { ...this.state.selectedMarker, bigFont: this.state.bigFont })
+        window.location.reload()
     }
 
     renderTitle = () => {

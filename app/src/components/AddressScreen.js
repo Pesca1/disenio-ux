@@ -29,13 +29,21 @@ const AddressScreen = (props) => {
                 throw { pais: 'Ingrese la pais' }
         },
         onSubmit: (values) => {
+            
             props.history.push('/address-selection', { ...values, bigFont });
+            window.location.reload()
         }
     });
+
+    
 
     useEffect(() => {
         document.title = "Ingresar domicilio - Prevención de inundaciones"
     })
+
+
+
+    
 
     return (
         <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
