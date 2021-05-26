@@ -40,7 +40,7 @@ const AddressScreen = (props) => {
     return (
         <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
             goBack={() => props.history.push('/', { bigFont })}>
-            <h2>Ingresá tu domicilio</h2>
+            <h1>Ingresá tu domicilio</h1>
             <div className='description'>                
                 <Form {...formProps}>
                     <FormLabel {...formProps} name='calle'>Calle</FormLabel>

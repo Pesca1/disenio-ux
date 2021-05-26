@@ -17,7 +17,7 @@ export default class ThankYou extends React.Component {
             title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}>
             <h2>¡Gracias!</h2>
             <p className='description'>
-                Gracias por usar nuestra aplicación... bla bla
+                Gracias por usar nuestra aplicación!
             </p>
             <Button className='button' onClick={() => this.props.history.push('/', { bigFont: this.state.bigFont })}>
                 Empezar de nuevo

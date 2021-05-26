@@ -141,9 +141,9 @@ export default class PathSelection extends React.Component {
             goBack={() => this.props.history.push('/address-selection', { bigFont: this.state.bigFont })}
             containerClass='map-container'>
             { !this.state.print ?
-                <h2>Seleccioná tu camino de evacuación</h2>
+                <h1>Seleccioná tu camino de evacuación</h1>
                 :
-                <h2>Visualizá la parte del camino que querés imprimir</h2>
+                <h1>Visualizá la parte del camino que querés imprimir</h1>
             }
             <div id='map-container'>
                 <Map

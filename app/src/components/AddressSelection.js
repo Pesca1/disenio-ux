@@ -127,13 +127,13 @@ export default class AddressSelection extends React.Component {
 
     renderTitle = () => {
         if (this.state.addressSearchSkipped)
-            return <h2>¿Podrías señalar tu domicilio en el mapa?</h2>;
+            return <h1>¿Podrías señalar tu domicilio en el mapa?</h1>;
         if (this.state.loading || !this.state.addressNotFound)
-            return <h2>¿Tu domicilio es el marcado en el mapa?</h2>;
+            return <h1>¿Tu domicilio es el marcado en el mapa?</h1>;
         else if (this.state.addressNotFound && this.state.results.length === 0)
-            return <h2>No encontramos tu domicilio :(<br/> ¿Podrías señalarlo en el mapa?</h2>;
+            return <h1>No encontramos tu domicilio :(<br/> ¿Podrías señalarlo en el mapa?</h1>;
         else
-            return <h2>¿Podrías señalar tu domicilio en el mapa?</h2>;
+            return <h1>¿Podrías señalar tu domicilio en el mapa?</h1>;
     }
 
     render = () => (
@@ -141,7 +141,7 @@ export default class AddressSelection extends React.Component {
             goBack={() => this.props.history.push('/address', { bigFont: this.state.bigFont })}
             containerClass='map-container'>
             {this.renderTitle()}
-            <h4>Podés navegar con las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h4>
+            <h2>Podés navegar con las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h2>
             <Map
                 center={this.state.center} zoom={this.state.zoom}
                 crollWheelZoom={true} onClick={this.pointInMap}>
