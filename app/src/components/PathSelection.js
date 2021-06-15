@@ -28,7 +28,7 @@ export default class PathSelection extends React.Component {
             loading: true,
             routes: {},
             mouseOverPath: null,
-            selectedPath: null,
+            selectedPath:null ,
             print: false,
             bigFont
         }

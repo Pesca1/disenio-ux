@@ -1,6 +1,6 @@
 import React from 'react';
 import Template from "./Template";
-import {Button} from "reakit";
+import {Button, Link} from "reakit";
 
 
 
@@ -21,7 +21,14 @@ export default class MainScreen extends React.Component {
         <>
             <h3>Mas información importante</h3>
             <p className='description'>
-                Lorem ipsum dolor sit amenLorem ipsum dolor sit amenLorem ipsum dolor sit amenLorem ipsum dolor sit amen
+                Instrucciones de la municipalidad sobre cómo proceder en caso de inundación
+                <br/>
+                <a href='https://www.laplata.gov.ar/#/gobierno/programa/ejes?categoria=comoActuar'>Clickeá acá</a>
+            </p>
+            <p className='description'>
+                Video informativo sobre la inundación de 2013
+                <br/>
+                <a href='https://unlp.edu.ar/inundaciones/video-inundaciones-urbanas-en-la-plata-berisso-y-ensenada-9631'>Clickeá acá</a>
             </p>
         </>
     )
