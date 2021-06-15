@@ -123,7 +123,7 @@
 .button.selected:not([disabled]):active, .button.selected[data-active="true"]:not([disabled]) ,
 .button.selected:not([aria-disabled="true"]):active, .button.selected[data-active="true"]:not([aria-disabled="true"]) {
   color: #173316;
-  background: #009932;
+  background: #05fd57;
   box-shadow: 0 0 0 0.2em rgba(9, 255, 0, 0.4);
 }
 

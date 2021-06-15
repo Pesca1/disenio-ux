@@ -12,6 +12,9 @@ const START_POINT = { longitude: -57.969767, latitude: -34.915290 }
 const END_POINT = { longitude: -57.951671, latitude: -34.941450 }
 const PROFILE = "driving-car"
 
+
+            
+
 /* Nominatim */
 const GEOCODE_URL = "https://nominatim.openstreetmap.org/search.php?polygon_geojson=1&format=jsonv2";
 
@@ -41,6 +44,7 @@ export default class AddressSelection extends React.Component {
     }
 
     componentDidMount = async () => {
+        
         if (!!this.props.location && !!this.props.location.state && !this.state.addressSearchSkipped) {
             console.log("[CONFIRM_ADDRESS] URL:", this.getGeoCodeUrl());
             axios.get(this.getGeoCodeUrl()).then(response => {
@@ -123,25 +127,26 @@ export default class AddressSelection extends React.Component {
 
     calculatePath = () => {
         this.props.history.push('/path-selection', { ...this.state.selectedMarker, bigFont: this.state.bigFont })
+        window.location.reload()
     }
 
     renderTitle = () => {
         if (this.state.addressSearchSkipped)
-            return <h2>¿Podrías señalar tu domicilio en el mapa?</h2>;
+            return <h1>¿Podrías señalar tu domicilio en el mapa?</h1>;
         if (this.state.loading || !this.state.addressNotFound)
-            return <h2>¿Tu domicilio es el marcado en el mapa?</h2>;
+            return <h1>¿Tu domicilio es el marcado en el mapa?</h1>;
         else if (this.state.addressNotFound && this.state.results.length === 0)
-            return <h2>No encontramos tu domicilio :(<br/> ¿Podrías señalarlo en el mapa?</h2>;
+            return <h1>No encontramos tu domicilio :(<br/> ¿Podrías señalarlo en el mapa?</h1>;
         else
-            return <h2>¿Podrías señalar tu domicilio en el mapa?</h2>;
+            return <h1>¿Podrías señalar tu domicilio en el mapa?</h1>;
     }
 
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
-            goBack={() => this.props.history.push('/address', { bigFont: this.state.bigFont })}
+            goBack={() => {this.props.history.push('/address', { bigFont: this.state.bigFont }); window.location.reload()}}
             containerClass='map-container'>
             {this.renderTitle()}
-            <h4>Podés navegar con las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h4>
+            <h2>Podés navegar con el mouse o las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h2>
             <Map
                 center={this.state.center} zoom={this.state.zoom}
                 crollWheelZoom={true} onClick={this.pointInMap}>
@@ -171,14 +176,14 @@ export default class AddressSelection extends React.Component {
             { (!this.state.addressNotFound && !this.state.addressSearchSkipped) && this.state.results.length > 0 &&
                 <>
                     <Button
-                        onClick={this.calculatePath}
-                        className='button positive'>
-                        Sí! Mi domicilio es el indicado
-                    </Button>
-                    <Button
                         onClick={() => this.setState({addressNotFound: true, selectedMarker: null})}
                         className='button negative'>
                         No :( Mi domicilio no está en el mapa
+                    </Button>
+                    <Button
+                        onClick={this.calculatePath}
+                        className='button positive'>
+                        Sí! Mi domicilio es el indicado
                     </Button>
                 </>
             }
