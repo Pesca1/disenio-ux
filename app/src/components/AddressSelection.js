@@ -59,7 +59,15 @@ export default class AddressSelection extends React.Component {
                 })
             }).catch(response => {
                 console.log("[CONFIRM_ADDRESS] Error while geocoding: ", response);
-                alert("Ocurrió un error al intentar ubicar su dirección!")
+                alert("Ocurrió un error al intentar ubicar su dirección! Cliquéelo en el mapa")                
+                this.setState({
+                    loading: false,
+                    results: [],
+                    addressNotFound: true,
+                    selectedMarker: null,
+                    center: this.state.center 
+                })
+                
             })
         }
 
