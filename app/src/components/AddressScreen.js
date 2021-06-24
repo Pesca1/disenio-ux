@@ -7,6 +7,10 @@ import {
     unstable_FormMessage as FormMessage,
     unstable_FormSubmitButton as FormSubmitButton,
     unstable_useFormState as useFormState,
+    unstable_useGridState as useGridState,
+    unstable_Grid as Grid,
+    unstable_GridRow as GridRow,
+    unstable_GridCell as GridCell,
     Button
 } from 'reakit';
 
@@ -43,47 +47,56 @@ const AddressScreen = (props) => {
 
 
 
-    
+    //const gridProps = {...useGridState(), orientation:'horizontal'};
+    //console.log(gridProps)
 
     return (
         <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
             goBack={() => {props.history.push('/', { bigFont }); window.location.reload()}}>
             <h1>Ingresá tu domicilio</h1>
-            <div className='description'>                
-                <Form {...formProps}>
-                    <FormLabel {...formProps} name='calle'>Calle</FormLabel>
+            <Form {...formProps}>            
+            <div className='description'>                         
+                <div>
+                            <FormLabel {...formProps} name='calle'>Calle</FormLabel>
+                            <br/>                            
+                            <FormInput {...formProps} name='calle' placeholder="Av. 7" />                            
+                            <FormMessage {...formProps} name='calle'/>
+                            <br/>
+                            <FormLabel {...formProps} name='numero'>Número</FormLabel>
+                            <br/>                            
+                            <FormInput {...formProps} name='numero' placeholder="815" />                            
+                            <FormMessage {...formProps} name='numero' />
+                </div>
+                <br/>
+                <div>
+                            <FormLabel {...formProps} name='ciudad'>Ciudad</FormLabel>
+                            <br/>                        
+                            <FormInput {...formProps} name='ciudad' placeholder="La Plata" />                            
+                            <FormMessage {...formProps} name='ciudad' />
+                            <br/>
+                            <FormLabel {...formProps} name='provincia'>Provincia</FormLabel>
+                            <br/>                            
+                            <FormInput {...formProps} name='provincia' placeholder="Buenos Aires"/>                            
+                            <FormMessage {...formProps} name='provincia' />
+                            <br/>                    
+                </div>       
+                <div>
+                            <FormLabel {...formProps} name='pais'>País</FormLabel>
+                            <br/>                            
+                            <FormInput {...formProps} name='pais'  placeholder="Argentina"/>                            
+                            <FormMessage {...formProps} name='pais' />
+                    
                     <br/>
-                    <FormInput {...formProps} name='calle' placeholder="Av. 7" />
-                    <FormMessage {...formProps} name='calle'/>
-                    <br/>
-                    <FormLabel {...formProps} name='numero'>Número</FormLabel>
-                    <br/>
-                    <FormInput {...formProps} name='numero' placeholder="815" />
-                    <FormMessage {...formProps} name='numero' />
-                    <br/>
-                    <FormLabel {...formProps} name='ciudad'>Ciudad</FormLabel>
-                    <br/>
-                    <FormInput {...formProps} name='ciudad' placeholder="La Plata" />
-                    <FormMessage {...formProps} name='ciudad' />
-                    <br/>
-                    <FormLabel {...formProps} name='provincia'>Provincia</FormLabel>
-                    <br/>
-                    <FormInput {...formProps} name='provincia' placeholder="Buenos Aires"/>
-                    <FormMessage {...formProps} name='provincia' />
-                    <br/>
-                    <FormLabel {...formProps} name='pais'>País</FormLabel>
-                    <br/>
-                    <FormInput {...formProps} name='pais'  placeholder="Argentina"/>
-                    <FormMessage {...formProps} name='pais' />
-                    <br/>
-                    <div className='center-content mt-1'>
-                        <FormSubmitButton {...formProps} className='button'>Buscar mi domicilio!</FormSubmitButton>
-                        <br/>
-                        <Button className='button' onClick={() => props.history.push('/address-selection', { skipSearch: true, bigFont })}>Señalar mi domicilio en el mapa</Button>
-                    </div>
-                </Form>
-                
+                </div>       
+                        <div className='center-content mt-1'>                            
+                            <FormSubmitButton {...formProps} className='button'>Buscar mi domicilio!</FormSubmitButton>                            
+                            <br/>                            
+                            <Button className='button' onClick={() => props.history.push('/address-selection', { skipSearch: true, bigFont })}>Señalar mi domicilio en el mapa</Button>                            
+                        </div>
+                    
             </div>
+            
+            </Form>
         </Template>
     );
 }

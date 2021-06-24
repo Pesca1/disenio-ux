@@ -27,6 +27,8 @@
   width: 460px;
 }
 
+
+
 .bigger-font .container {
   font-size: large;
 }
@@ -49,10 +51,14 @@
 
 .description {
   text-align: left;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
 }
 
 .description form > *{
     margin-bottom: 10px;    
+    
 }
 
 .center-content {
