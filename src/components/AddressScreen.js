@@ -7,10 +7,6 @@ import {
     unstable_FormMessage as FormMessage,
     unstable_FormSubmitButton as FormSubmitButton,
     unstable_useFormState as useFormState,
-    unstable_useGridState as useGridState,
-    unstable_Grid as Grid,
-    unstable_GridRow as GridRow,
-    unstable_GridCell as GridCell,
     Button
 } from 'reakit';
 
@@ -19,7 +15,7 @@ const AddressScreen = (props) => {
     const [ bigFont, setBigFont ] = useState(props.location && props.location.state && props.location.state.bigFont || false);
     const formProps = useFormState({
         baseId: 'address-form',
-        values: { calle: '', numero: '', ciudad: '', provincia: '', pais: '' },
+        values: { calle: '', numero: '', ciudad: ''},
         onValidate: (values) => {
             if (!values.calle)
                 throw { calle: 'Ingrese la calle' }
@@ -27,10 +23,6 @@ const AddressScreen = (props) => {
                 throw { numero: 'Ingrese la numero' }
             if (!values.ciudad)
                 throw { ciudad: 'Ingrese la ciudad' }
-            if (!values.provincia)
-                throw { provincia: 'Ingrese la provincia' }
-            if (!values.pais)
-                throw { pais: 'Ingrese la pais' }
         },
         onSubmit: (values) => {
             
@@ -45,10 +37,6 @@ const AddressScreen = (props) => {
         document.title = "Ingresar domicilio - Prevención de inundaciones"
     })
 
-
-
-    //const gridProps = {...useGridState(), orientation:'horizontal'};
-    //console.log(gridProps)
 
     return (
         <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
@@ -74,20 +62,7 @@ const AddressScreen = (props) => {
                             <FormInput {...formProps} name='ciudad' placeholder="La Plata" />                            
                             <FormMessage {...formProps} name='ciudad' />
                             <br/>
-                            <FormLabel {...formProps} name='provincia'>Provincia</FormLabel>
-                            <br/>                            
-                            <FormInput {...formProps} name='provincia' placeholder="Buenos Aires"/>                            
-                            <FormMessage {...formProps} name='provincia' />
-                            <br/>                    
-                </div>       
-                <div>
-                            <FormLabel {...formProps} name='pais'>País</FormLabel>
-                            <br/>                            
-                            <FormInput {...formProps} name='pais'  placeholder="Argentina"/>                            
-                            <FormMessage {...formProps} name='pais' />
-                    
-                    <br/>
-                </div>       
+                </div>
                         <div className='center-content mt-1'>                            
                             <FormSubmitButton {...formProps} className='button'>Buscar mi domicilio!</FormSubmitButton>                            
                             <br/>                            

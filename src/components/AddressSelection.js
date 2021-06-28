@@ -37,8 +37,8 @@ export default class AddressSelection extends React.Component {
 
     getGeoCodeUrl = () => {
         return GEOCODE_URL +
-            `&country=${this.props.location.state.pais}` +
-            `&state=${this.props.location.state.provincia}` +
+            `&country=Argentina` +
+            `&state=Buenos Aires` +
             `&city=${this.props.location.state.ciudad}` +
             `&street=${this.props.location.state.numero},${this.props.location.state.calle}`;
     }
