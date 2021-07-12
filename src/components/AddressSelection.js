@@ -168,7 +168,7 @@ export default class AddressSelection extends React.Component {
                             <Marker
                                 key={this.state.results[0].lat + " " + this.state.results[0].lon}
                                 position={[parseFloat(this.state.results[0].lat), parseFloat(this.state.results[0].lon)]}
-                                icon={BlueIcon}
+                                icon={BlueIcon("Domicilio")}
                             />
                 }
                 { !this.state.loading && (this.state.addressNotFound || this.state.addressSearchSkipped) && this.state.selectedMarker != null &&

@@ -198,6 +198,13 @@
     border:5px solid rgba(255,255,255,0.5);
 }
 
+.custom-marker.danger {
+    background: #db4d4d;
+    border:2px solid rgba(255,255,255,0.5);
+    width: 5px !important;
+    height: 5px !important;
+}
+
 form div[role='alert']:not(:empty) {
   padding: 3px;
   border: 1px dashed rgb(78, 0, 0);

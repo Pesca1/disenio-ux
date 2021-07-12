@@ -5,10 +5,11 @@ import axios from "axios";
 import {Button} from "reakit";
 import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
-import {RedIcon, BlueIcon, PolygonWithText} from './CustomIcon';
+import {RedIcon, BlueIcon, DangerIcon, PolygonWithText} from './CustomIcon';
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
+const ELEVATION_URL = "https://api.openrouteservice.org/elevation/line/"
 const API_KEY = "5b3ce3597851110001cf6248eba327ba0377440cac6ca3c8e26ecc63"
 const PROFILE = "foot-walking"
 
@@ -33,6 +34,7 @@ export default class PathSelection extends React.Component {
         this.state = {
             loading: true,
             routes: {},
+            elevationPoints: [],
             mouseOverPath: null,
             selectedPath:null ,
             print: false,
@@ -51,6 +53,14 @@ export default class PathSelection extends React.Component {
                         let routes = {...this.state.routes};
                         routes[index] = response.data;
                         this.setState({routes});
+                        this.getElevationForRoute(response.data.features[0].geometry)
+                            .then((response) => {
+                                console.log("Elevation:", response)
+                                let elevationPoints = this.state.elevationPoints;
+                                this.setState({
+                                    elevationPoints: elevationPoints.concat(response.data.geometry.coordinates)
+                                })
+                            });
                     }).catch(response => {
                     alert("No se puede calcular la distancia.")
                     console.log("ERROR AL CALCULAR DISTANCIA: ", response)
@@ -73,6 +83,14 @@ export default class PathSelection extends React.Component {
                 avoid_polygons: POLYGON 
             }
         })
+    }
+
+    getElevationForRoute = (geometry) => {
+        return axios.post(ELEVATION_URL, {
+            geometry, format_in: 'geojson'
+        }, {
+            headers: { Authorization: API_KEY }
+        });
     }
 
     pointInMap = (event) => {
@@ -167,6 +185,13 @@ export default class PathSelection extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
+                    { this.state.elevationPoints.filter((point, index) => point[2] < 18 && index % 2 === 0).map(point => (
+                        <Marker
+                            key={point[0] + "-" + point[1]}
+                            position={[parseFloat(point[1]), parseFloat(point[0])]}
+                            icon={DangerIcon}
+                        />
+                    )) }
                     { Object.keys(this.state.routes).filter(key => !this.state.print || key === this.state.selectedPath).map(key =>
                         <GeoJSON
                         key={key}

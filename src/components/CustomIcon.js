@@ -27,4 +27,9 @@ const PolygonWithText = props => {
     );
   }
 
-export {BlueIcon, RedIcon,IconHouse, PolygonWithText };
+const DangerIcon = new L.DivIcon({
+    className: 'custom-marker danger'
+});
+
+
+export {BlueIcon, RedIcon,IconHouse, DangerIcon, PolygonWithText };
