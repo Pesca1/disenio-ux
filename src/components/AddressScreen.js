@@ -20,9 +20,7 @@ const AddressScreen = (props) => {
             if (!values.calle)
                 throw { calle: 'Ingrese la calle' }
             if (!values.numero)
-                throw { numero: 'Ingrese la numero' }
-            if (!values.ciudad)
-                throw { ciudad: 'Ingrese la ciudad' }
+                throw { numero: 'Ingrese la numero' }            
         },
         onSubmit: (values) => {
             
@@ -49,24 +47,20 @@ const AddressScreen = (props) => {
                             <br/>                            
                             <FormInput {...formProps} name='calle' placeholder="Av. 7" />                            
                             <FormMessage {...formProps} name='calle'/>
-                            <br/>
+                </div>
+                <div>
+                      
                             <FormLabel {...formProps} name='numero'>Número</FormLabel>
                             <br/>                            
                             <FormInput {...formProps} name='numero' placeholder="815" />                            
                             <FormMessage {...formProps} name='numero' />
                 </div>
-                <br/>
-                <div>
-                            <FormLabel {...formProps} name='ciudad'>Ciudad</FormLabel>
-                            <br/>                        
-                            <FormInput {...formProps} name='ciudad' placeholder="La Plata" />                            
-                            <FormMessage {...formProps} name='ciudad' />
-                            <br/>
-                </div>
+                <br/>                
                         <div className='center-content mt-1'>                            
                             <FormSubmitButton {...formProps} className='button'>Buscar mi domicilio!</FormSubmitButton>                            
-                            <br/>                            
-                            <Button className='button' onClick={() => props.history.push('/address-selection', { skipSearch: true, bigFont })}>Señalar mi domicilio en el mapa</Button>                            
+                            <br/>      
+                            <h3>Si no podés seleccionar tu dirección directamente en el mapa</h3>                    
+                            <Button className='button' onClick={() => props.history.push('/address-selection', { skipSearch: true, bigFont })}>Señalar en el mapa</Button>                            
                         </div>
                     
             </div>

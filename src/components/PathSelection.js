@@ -1,9 +1,10 @@
 import React from 'react';
 import Template from "./Template";
-import {Map, TileLayer, Marker, GeoJSON, withLeaflet} from "react-leaflet";
+import {Map, TileLayer, Marker, GeoJSON, withLeaflet, Polygon} from "react-leaflet";
 import axios from "axios";
 import {Button} from "reakit";
 import PrintControlDefault from 'react-leaflet-easyprint';
+import L from 'leaflet';
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -15,6 +16,9 @@ const DESTINATIONS = [
     { lat: -34.901461, lon: -57.980792, name: 'Opcion 2' },
     { lat: -34.862425, lon: -57.913978, name: 'Opcion 3' }
 ];
+
+const latlngs = [[-34.918269,-57.960055], [-34.918691,-57.950092], [-34.924885,-57.948547], [-34.924322,-57.957135]]
+const POLYGON = L.polygon(latlngs, {color:'red'}).toGeoJSON()
 
 const COLORS = ["#d44141", "#41b7d4", "#6841d4"]
 
@@ -56,10 +60,17 @@ export default class PathSelection extends React.Component {
     }
 
     getRoute = (startLongitude, startLatitude, endLongitude, endLatitude) => {
+        const options = JSON.stringify({avoid_polgons:POLYGON})
         const requestUrl = URL + PROFILE + "?api_key=" + API_KEY
             + "&start=" + startLongitude + "," + startLatitude
             + "&end=" + endLongitude + "," + endLatitude;
-        return axios.get(requestUrl)
+        //console.log("OPTIONS")
+        //console.log(requestUrl)
+        return axios.get(requestUrl, {
+            params: {
+                avoid_polygons: POLYGON 
+            }
+        })
     }
 
     pointInMap = (event) => {
@@ -154,6 +165,7 @@ export default class PathSelection extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
+                    <Polygon color="red" positions={latlngs}></Polygon> 
                     { Object.keys(this.state.routes).filter(key => !this.state.print || key === this.state.selectedPath).map(key =>
                         <GeoJSON
                             key={key}

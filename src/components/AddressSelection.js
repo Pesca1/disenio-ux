@@ -12,6 +12,8 @@ const START_POINT = { longitude: -57.969767, latitude: -34.915290 }
 const END_POINT = { longitude: -57.951671, latitude: -34.941450 }
 const PROFILE = "driving-car"
 
+const CENTER = [-34.911804, -57.954493];
+const ZOOM = 13;
 
             
 
@@ -27,8 +29,8 @@ export default class AddressSelection extends React.Component {
             results: [],
             selectedMarker: null,
             addressNotFound: false,
-            center: [-34.911804, -57.954493],
-            zoom: 13,
+            center: CENTER,
+            zoom: ZOOM,
             addressSearchSkipped: this.props.location && this.props.location.state && this.props.location.state.skipSearch || false
         }
     }
@@ -39,7 +41,7 @@ export default class AddressSelection extends React.Component {
         return GEOCODE_URL +
             `&country=Argentina` +
             `&state=Buenos Aires` +
-            `&city=${this.props.location.state.ciudad}` +
+            `&city=La Plata` +
             `&street=${this.props.location.state.numero},${this.props.location.state.calle}`;
     }
 
@@ -148,7 +150,7 @@ export default class AddressSelection extends React.Component {
         else
             return <h1>¿Podrías señalar tu domicilio en el mapa?</h1>;
     }
-
+    
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
             goBack={() => {this.props.history.push('/address', { bigFont: this.state.bigFont }); window.location.reload()}}
@@ -184,7 +186,7 @@ export default class AddressSelection extends React.Component {
             { (!this.state.addressNotFound && !this.state.addressSearchSkipped) && this.state.results.length > 0 &&
                 <>
                     <Button
-                        onClick={() => this.setState({addressNotFound: true, selectedMarker: null})}
+                        onClick={() => this.setState({center: CENTER, zoom: ZOOM,addressNotFound: true, selectedMarker: null})}
                         className='button negative'>
                         No :( Mi domicilio no está en el mapa
                     </Button>
