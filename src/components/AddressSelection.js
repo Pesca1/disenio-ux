@@ -188,7 +188,7 @@ export default class AddressSelection extends React.Component {
                     <Button
                         onClick={() => this.setState({center: CENTER, zoom: ZOOM,addressNotFound: true, selectedMarker: null})}
                         className='button negative'>
-                        No :( Mi domicilio no está en el mapa
+                        No :( Mi domicilio no es el del mapa
                     </Button>
                     <Button
                         onClick={this.calculatePath}

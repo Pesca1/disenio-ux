@@ -1,15 +1,17 @@
 import React from 'react';
 import Template from "./Template";
-import {Map, TileLayer, Marker, GeoJSON, withLeaflet, Polygon} from "react-leaflet";
+import {Map, TileLayer, Marker, GeoJSON, withLeaflet, Polygon, Popup} from "react-leaflet";
 import axios from "axios";
 import {Button} from "reakit";
 import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
+import {RedIcon, BlueIcon, PolygonWithText} from './CustomIcon';
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
 const API_KEY = "5b3ce3597851110001cf6248eba327ba0377440cac6ca3c8e26ecc63"
-const PROFILE = "driving-car"
+const PROFILE = "foot-walking"
+
 
 const DESTINATIONS = [
     { lat: -34.930806, lon: -57.964902, name: 'Parque Vucetich' },
@@ -90,7 +92,7 @@ export default class PathSelection extends React.Component {
         return {
             weight: this.highlightKey(key)? 7 : 5,
             fillColor: COLORS[key],
-            color: this.highlightKey(key)? "#0b35fc" : ((!!this.state.selectedPath || !!this.state.mouseOverPath) ? "grey" : COLORS[key])
+            color: this.highlightKey(key) ? "#0b35fc" : "grey" //((!!this.state.selectedPath || !!this.state.mouseOverPath) ? "grey" : COLORS[key])
         }
     }
 
@@ -155,7 +157,7 @@ export default class PathSelection extends React.Component {
             { !this.state.print ?
                 <h1>Seleccioná tu camino de evacuación</h1>
                 :
-                <h1>Visualizá la parte del camino que querés imprimir</h1>
+                <h1>Lo que veas ahora en el mapa es lo que se va a imprimir. Asegurá que se vea claro el camino</h1>
             }
             <div id='map-container'>
                 <Map
@@ -165,22 +167,34 @@ export default class PathSelection extends React.Component {
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
-                    <Polygon color="red" positions={latlngs}></Polygon> 
                     { Object.keys(this.state.routes).filter(key => !this.state.print || key === this.state.selectedPath).map(key =>
                         <GeoJSON
-                            key={key}
-                            data={this.state.routes[key]}
-                            onEachFeature={(feature, layer) => this.onEachFeature(feature, layer, key)}
-                            style={() => this.getGeoJSONStyles(key)}
+                        key={key}
+                        data={this.state.routes[key]}
+                        onEachFeature={(feature, layer) => this.onEachFeature(feature, layer, key)}
+                        style={() => this.getGeoJSONStyles(key)}
                         />
                     )}
+                        <Marker 
+                            icon={RedIcon} 
+                            position={[this.props.location.state.lat, this.props.location.state.lon]}
+                        />
+                    {Object.keys(this.state.routes).map(key=>{
+                        return(
+                            <Marker position={[DESTINATIONS[key].lat, DESTINATIONS[key].lon]} icon={BlueIcon(DESTINATIONS[key].name)}>                                
+                                    
+                            </Marker>
+                    )
+                    })}
+                    
+                            
                 </Map>
             </div>
             <br/>
-            { Object.keys(this.state.routes).filter(key => !this.state.print || key === this.state.selectedPath).map(key =>
+            { Object.keys(this.state.routes).filter(key => !this.state.print ||  key === this.state.selectedPath).map(key =>
                 <>
                 <Button 
-                    className={'button inline '+(this.state.selectedPath === key ? 'selected' : '')} 
+                    className={'button inline '+(this.state.selectedPath === key || this.state.mouseOverPath === key ? 'selected' : '')} 
                     onClick={() => this.setState({ selectedPath: key })}>
                         {DESTINATIONS[key].name}
                     </Button>
