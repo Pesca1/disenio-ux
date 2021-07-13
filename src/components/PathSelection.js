@@ -6,6 +6,7 @@ import {Button} from "reakit";
 import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
 import {RedIcon, BlueIcon, PolygonWithText} from './CustomIcon';
+import {decodePolyline} from "../utils";
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -45,11 +46,11 @@ export default class PathSelection extends React.Component {
     componentDidMount() {
         if (!!this.props.location && !!this.props.location.state) {
             DESTINATIONS.forEach((dest, index) => {
-                this.getRoute(this.props.location.state.lon, this.props.location.state.lat, dest.lon, dest.lat)
+                this.getRoute2(this.props.location.state.lon, this.props.location.state.lat, dest.lon, dest.lat)
                     .then(response => {
-                        console.log("DISTANCIA CALCULADA: ", response)
+                        console.log("DISTANCIA CALCULADA: ", JSON.stringify(this.parseResponse(response.data)))
                         let routes = {...this.state.routes};
-                        routes[index] = response.data;
+                        routes[index] = this.parseResponse(response.data);
                         this.setState({routes});
                     }).catch(response => {
                     alert("No se puede calcular la distancia.")
@@ -72,6 +73,40 @@ export default class PathSelection extends React.Component {
             params: {
                 avoid_polygons: POLYGON 
             }
+        })
+    }
+
+    invertTuple = (tuple) => ([tuple[1], tuple[0]]);
+
+    parseResponse = (response) => {
+        return {
+            type: "FeatureCollection",
+            features: [{
+                type: "Feature",
+                bbox: response.routes[0].bbox,
+                geometry: {
+                    type: "LineString",
+                    coordinates: decodePolyline(response.routes[0].geometry, false).map(this.invertTuple)
+                },
+                properties: {
+                    segments: response.routes[0].segments,
+                    summary: response.routes[0].summary,
+                    way_points: response.routes[0].way_points
+                }
+            }],
+            bbox: response.bbox,
+            metadata: response.metadata
+        }
+    }
+
+    getRoute2 = (startLongitude, startLatitude, endLongitude, endLatitude) => {
+        const requestUrl = URL + PROFILE;
+        console.log("Polygon:", POLYGON);
+        return axios.post(requestUrl, {
+            coordinates: [[startLongitude, startLatitude], [endLongitude, endLatitude]],
+            options: { avoid_polygons: POLYGON.geometry }
+        }, {
+            headers: { Authorization: API_KEY }
         })
     }
 
@@ -175,6 +210,10 @@ export default class PathSelection extends React.Component {
                         style={() => this.getGeoJSONStyles(key)}
                         />
                     )}
+                    <GeoJSON
+                        key={"test"}
+                        data={POLYGON}
+                    />
                         <Marker 
                             icon={RedIcon} 
                             position={[this.props.location.state.lat, this.props.location.state.lon]}
