@@ -209,6 +209,50 @@ form div[role='alert']:not(:empty) {
 .leaflet-control-easyPrint {
   /*visibility: hidden;*/
 }
+
+.house-icon {
+    width: 25px !important;
+    height: 25px !important;
+    top: -18px;
+    left: -18px;
+    padding: 3px;
+    background-color: white;
+    border-radius: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.7);
+}
+
+.node-icon {
+    width: 110px !important;
+    top: -15px;
+    left: -50px;
+    text-align: center;
+    align-content: center;
+}
+
+.node-icon * {
+    margin: 0;
+}
+
+.node-icon h4 {
+    background-color: white;
+    border-radius: 10px;
+    padding: 4px;
+    visibility: hidden;
+}
+
+.node-icon:hover h4 {
+    visibility: visible;
+}
+
+.node-icon svg {
+    width: 25px !important;
+    padding: 3px;
+    background-color: white;
+    border-radius: 100%;
+    fill: #ff3f3f;
+    border: 2px solid rgba(0, 0, 0, 0.7);
+}
+
 @media (max-width: 1215px) {
     .font-size-option {
         right: 5px;

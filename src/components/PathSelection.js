@@ -5,7 +5,7 @@ import axios from "axios";
 import {Button} from "reakit";
 import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
-import {RedIcon, BlueIcon, PolygonWithText} from './CustomIcon';
+import {RedIcon, BlueIcon, PolygonWithText, IconHouse, NodeIcon} from './CustomIcon';
 import {decodePolyline} from "../utils";
 
 /* Open route service */
@@ -133,7 +133,14 @@ export default class PathSelection extends React.Component {
         return {
             weight: this.highlightKey(key)? 7 : 5,
             fillColor: COLORS[key],
-            color: this.highlightKey(key) ? "#0b35fc" : "grey" //((!!this.state.selectedPath || !!this.state.mouseOverPath) ? "grey" : COLORS[key])
+            color: this.highlightKey(key) ? "#0b35fc" : ((!!this.state.selectedPath || !!this.state.mouseOverPath) ? "grey" : COLORS[key])
+        }
+    }
+
+    getPolygonStyles = () => {
+        return {
+            fillColor: "green",
+            color: "green"
         }
     }
 
@@ -219,14 +226,15 @@ export default class PathSelection extends React.Component {
                     <GeoJSON
                         key={"test"}
                         data={POLYGON}
+                        style={this.getPolygonStyles}
                     />
                         <Marker 
-                            icon={RedIcon} 
+                            icon={IconHouse}
                             position={[this.props.location.state.lat, this.props.location.state.lon]}
                         />
                     {Object.keys(this.state.routes).map(key=>{
                         return(
-                            <Marker position={[DESTINATIONS[key].lat, DESTINATIONS[key].lon]} icon={BlueIcon(DESTINATIONS[key].name)}>                                
+                            <Marker position={[DESTINATIONS[key].lat, DESTINATIONS[key].lon]} icon={NodeIcon(DESTINATIONS[key].name)}>
                                     
                             </Marker>
                     )
