@@ -5,7 +5,11 @@ const RedIcon = new L.DivIcon({
     className: 'custom-marker red'
 });
 
-const BlueIcon = name => new L.DivIcon({
+const BlueIcon = new L.DivIcon({
+    className: 'custom-marker blue'
+});
+
+const BlueIconWithName = name => new L.DivIcon({
     className: 'custom-marker blue', 
     html: name
 });
@@ -19,7 +23,7 @@ const IconHouse = new L.DivIcon({
 
 const PolygonWithText = props => {
     
-    const text = L.divIcon({html: props.text});
+    const text = L.divIcon({html: "Nombre"});
   
     return(      
         <Marker position={props.coord} icon={text} />
@@ -27,4 +31,4 @@ const PolygonWithText = props => {
     );
   }
 
-export {BlueIcon, RedIcon,IconHouse, PolygonWithText };
+export {BlueIcon,BlueIconWithName, RedIcon,IconHouse, PolygonWithText };

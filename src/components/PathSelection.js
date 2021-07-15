@@ -5,7 +5,7 @@ import axios from "axios";
 import {Button} from "reakit";
 import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
-import {RedIcon, BlueIcon, PolygonWithText} from './CustomIcon';
+import {RedIcon, BlueIconWithName, PolygonWithText} from './CustomIcon';
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -47,18 +47,35 @@ export default class PathSelection extends React.Component {
             DESTINATIONS.forEach((dest, index) => {
                 this.getRoute(this.props.location.state.lon, this.props.location.state.lat, dest.lon, dest.lat)
                     .then(response => {
-                        console.log("DISTANCIA CALCULADA: ", response)
+                        //console.log("DISTANCIA CALCULADA: ", response)
                         let routes = {...this.state.routes};
                         routes[index] = response.data;
+                        console.log(routes[index])
                         this.setState({routes});
                     }).catch(response => {
                     alert("No se puede calcular la distancia.")
                     console.log("ERROR AL CALCULAR DISTANCIA: ", response)
                 })
+
             })
+            
         }
 
         document.title = "Camino de evacuación - Prevención de inundaciones"
+    }
+
+    getRoute = (startLongitude, startLatitude, endLongitude, endLatitude) => {
+        const options = JSON.stringify({avoid_polgons:POLYGON})
+        const requestUrl = URL + PROFILE + "?api_key=" + API_KEY
+            + "&start=" + startLongitude + "," + startLatitude
+            + "&end=" + endLongitude + "," + endLatitude;
+        //console.log("OPTIONS")
+        //console.log(requestUrl)
+        return axios.get(requestUrl, {
+            params: {
+                avoid_polygons: POLYGON 
+            }
+        })
     }
 
     getRoute = (startLongitude, startLatitude, endLongitude, endLatitude) => {
@@ -157,7 +174,10 @@ export default class PathSelection extends React.Component {
             { !this.state.print ?
                 <h1>Seleccioná tu camino de evacuación</h1>
                 :
-                <h1>Lo que veas ahora en el mapa es lo que se va a imprimir. Asegurá que se vea claro el camino</h1>
+                <div>
+                    <h1>Impresión de mapa</h1>
+                    <h2>Lo que veas ahora en el mapa es lo que se va a imprimir. Asegurá que se vea claro el camino. Si no tenés impresora se guardará como pdf</h2>
+                </div>
             }
             <div id='map-container'>
                 <Map
@@ -179,13 +199,16 @@ export default class PathSelection extends React.Component {
                             icon={RedIcon} 
                             position={[this.props.location.state.lat, this.props.location.state.lon]}
                         />
-                    {Object.keys(this.state.routes).map(key=>{
-                        return(
-                            <Marker position={[DESTINATIONS[key].lat, DESTINATIONS[key].lon]} icon={BlueIcon(DESTINATIONS[key].name)}>                                
-                                    
-                            </Marker>
-                    )
-                    })}
+                    {
+                        (this.state.selectedPath==null) ?
+                            Object.keys(this.state.routes).map(key=>{
+                                return(
+                                    <Marker position={[DESTINATIONS[key].lat, DESTINATIONS[key].lon]} icon={BlueIconWithName(DESTINATIONS[key].name)}/>
+                            )
+                        })
+                        : <Marker position={[DESTINATIONS[this.state.selectedPath].lat, DESTINATIONS[this.state.selectedPath].lon]} icon={BlueIconWithName(DESTINATIONS[this.state.selectedPath].name)}/>
+                        
+                    }
                     
                             
                 </Map>
