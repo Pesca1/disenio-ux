@@ -27,12 +27,21 @@
   width: 460px;
 }
 
-
+a {
+  display: inline;
+}
 
 .bigger-font .container {
   font-size: large;
 }
 
+.container h2 {
+  font-size: medium;
+}
+
+.bigger-font .container h2 {
+  font-size: large;
+}
 .bigger-font .container h3 {
   font-size: x-large;
 }
