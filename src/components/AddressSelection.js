@@ -2,7 +2,7 @@ import React from 'react';
 import Template from "./Template";
 import { Map, TileLayer, Marker } from "react-leaflet";
 import axios from "axios";
-import { RedIcon, BlueIcon } from "./CustomIcon";
+import { RedIcon, BlueIcon,BlueIconWithName } from "./CustomIcon";
 import {Button} from "reakit";
 
 /* Open route service */
@@ -168,7 +168,7 @@ export default class AddressSelection extends React.Component {
                             <Marker
                                 key={this.state.results[0].lat + " " + this.state.results[0].lon}
                                 position={[parseFloat(this.state.results[0].lat), parseFloat(this.state.results[0].lon)]}
-                                icon={BlueIcon}
+                                icon={BlueIconWithName("Domicilio")}
                             />
                 }
                 { !this.state.loading && (this.state.addressNotFound || this.state.addressSearchSkipped) && this.state.selectedMarker != null &&

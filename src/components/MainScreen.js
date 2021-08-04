@@ -12,18 +12,11 @@ export default class MainScreen extends React.Component {
     }
 
     componentDidMount() {
-        document.title = "Prevención de Inundaciones";
+        document.title = "Caminos a refugios";
     }
 
     toggleBigFont = () => this.setState({ bigFont: !this.state.bigFont });
 
-
-    renderExtraContent = () => (
-        <>
-            
-        </>
-        
-        )
     goTo = (pathName, pathParams) => {
         this.props.history.push('/'+pathName, pathParams) 
         window.location.reload()
@@ -31,8 +24,7 @@ export default class MainScreen extends React.Component {
 
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
-            title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
-            >
+            title={<>Proyecto CITADINE<br/>Caminos a refugios</>}>
             <h2>¿Qué hacer en una inundación?</h2>
             <p className='description'>
                 Durante una inundación es importante saber a dónde ir en caso de precisar ayuda. Los centros de evacuación son puntos de encuentro donde pueden ofrecerte primeros auxilios. Si no tenés un lugar seguro preestablecido podés ir a uno de estos. Esta aplicación sirve para trazar caminos de una ubicaicón a centros evacuación, evitando zonas con probabilidad de inundarse.

@@ -31,7 +31,7 @@ export default class ThankYou extends React.Component {
     render = () => (
         <Template
             bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
-            title={<>Proyecto CITADINE<br/>Prevención de Inundaciones</>}
+            title={<>Proyecto CITADINE<br/>Caminos a refugios</>}
             extraContent={this.renderExtraContent()}>
             <h2>¡Listo!</h2>
             <p className='description'>

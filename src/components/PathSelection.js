@@ -5,7 +5,8 @@ import axios from "axios";
 import {Button} from "reakit";
 import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
-import {RedIcon, BlueIconWithName, PolygonWithText} from './CustomIcon';
+import {RedIcon, BlueIcon, PolygonWithText, IconHouse, NodeIcon} from './CustomIcon';
+import {decodePolyline} from "../utils";
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -15,12 +16,18 @@ const PROFILE = "foot-walking"
 
 const DESTINATIONS = [
     { lat: -34.930806, lon: -57.964902, name: 'Parque Vucetich' },
-    { lat: -34.901461, lon: -57.980792, name: 'Opcion 2' },
-    { lat: -34.862425, lon: -57.913978, name: 'Opcion 3' }
+    { lat: -34.901461, lon: -57.980792, name: 'Escuela Nº233' },
+    { lat: -34.862425, lon: -57.913978, name: 'Club Atlético' }
 ];
 
+const latlngs2 = [[-34.898167, -57.966339], [-34.911007, -57.961710], [-34.924228, -57.958756], [-34.933330, -57.953126],
+    [-34.946957, -57.949897], [-34.948637, -57.947721], [-34.949158, -57.958361], [-34.941221, -57.957698], [-34.939513, -57.957903],
+    [-34.936037, -57.960122], [-34.943283, -57.966192], [-34.941551, -57.968379], [-34.931148, -57.966453], [-34.937087, -57.974469],
+    [-34.932746, -57.973666], [-34.932718, -57.973651], [-34.926169, -57.966523], [-34.913037, -57.970329], [-34.911490, -57.974724],
+    [-34.913453, -57.978931], [-34.925203, -57.981481], [-34.929650, -57.980080], [-34.932301, -57.981089], [-34.925913, -57.990550],
+    [-34.922713, -57.987010], [-34.916180, -57.986458]];
 const latlngs = [[-34.918269,-57.960055], [-34.918691,-57.950092], [-34.924885,-57.948547], [-34.924322,-57.957135]]
-const POLYGON = L.polygon(latlngs, {color:'red'}).toGeoJSON()
+const POLYGON = L.polygon(latlngs2, {color:'red'}).toGeoJSON()
 
 const COLORS = ["#d44141", "#41b7d4", "#6841d4"]
 
@@ -45,12 +52,11 @@ export default class PathSelection extends React.Component {
     componentDidMount() {
         if (!!this.props.location && !!this.props.location.state) {
             DESTINATIONS.forEach((dest, index) => {
-                this.getRoute(this.props.location.state.lon, this.props.location.state.lat, dest.lon, dest.lat)
+                this.getRoute2(this.props.location.state.lon, this.props.location.state.lat, dest.lon, dest.lat)
                     .then(response => {
-                        //console.log("DISTANCIA CALCULADA: ", response)
+                        console.log("DISTANCIA CALCULADA: ", JSON.stringify(this.parseResponse(response.data)))
                         let routes = {...this.state.routes};
-                        routes[index] = response.data;
-                        console.log(routes[index])
+                        routes[index] = this.parseResponse(response.data);
                         this.setState({routes});
                     }).catch(response => {
                     alert("No se puede calcular la distancia.")
@@ -78,17 +84,37 @@ export default class PathSelection extends React.Component {
         })
     }
 
-    getRoute = (startLongitude, startLatitude, endLongitude, endLatitude) => {
-        const options = JSON.stringify({avoid_polgons:POLYGON})
-        const requestUrl = URL + PROFILE + "?api_key=" + API_KEY
-            + "&start=" + startLongitude + "," + startLatitude
-            + "&end=" + endLongitude + "," + endLatitude;
-        //console.log("OPTIONS")
-        //console.log(requestUrl)
-        return axios.get(requestUrl, {
-            params: {
-                avoid_polygons: POLYGON 
-            }
+    invertTuple = (tuple) => ([tuple[1], tuple[0]]);
+
+    parseResponse = (response) => {
+        return {
+            type: "FeatureCollection",
+            features: [{
+                type: "Feature",
+                bbox: response.routes[0].bbox,
+                geometry: {
+                    type: "LineString",
+                    coordinates: decodePolyline(response.routes[0].geometry, false).map(this.invertTuple)
+                },
+                properties: {
+                    segments: response.routes[0].segments,
+                    summary: response.routes[0].summary,
+                    way_points: response.routes[0].way_points
+                }
+            }],
+            bbox: response.bbox,
+            metadata: response.metadata
+        }
+    }
+
+    getRoute2 = (startLongitude, startLatitude, endLongitude, endLatitude) => {
+        const requestUrl = URL + PROFILE;
+        console.log("Polygon:", POLYGON);
+        return axios.post(requestUrl, {
+            coordinates: [[startLongitude, startLatitude], [endLongitude, endLatitude]],
+            options: { avoid_polygons: POLYGON.geometry }
+        }, {
+            headers: { Authorization: API_KEY }
         })
     }
 
@@ -109,7 +135,14 @@ export default class PathSelection extends React.Component {
         return {
             weight: this.highlightKey(key)? 7 : 5,
             fillColor: COLORS[key],
-            color: this.highlightKey(key) ? "#0b35fc" : "grey" //((!!this.state.selectedPath || !!this.state.mouseOverPath) ? "grey" : COLORS[key])
+            color: this.highlightKey(key) ? "#0b35fc" : ((!!this.state.selectedPath || !!this.state.mouseOverPath) ? "grey" : COLORS[key])
+        }
+    }
+
+    getPolygonStyles = () => {
+        return {
+            fillColor: "green",
+            color: "green"
         }
     }
 
@@ -195,20 +228,22 @@ export default class PathSelection extends React.Component {
                         style={() => this.getGeoJSONStyles(key)}
                         />
                     )}
+                    <GeoJSON
+                        key={"test"}
+                        data={POLYGON}
+                        style={this.getPolygonStyles}
+                    />
                         <Marker 
-                            icon={RedIcon} 
+                            icon={IconHouse}
                             position={[this.props.location.state.lat, this.props.location.state.lon]}
                         />
-                    {
-                        (this.state.selectedPath==null) ?
-                            Object.keys(this.state.routes).map(key=>{
-                                return(
-                                    <Marker position={[DESTINATIONS[key].lat, DESTINATIONS[key].lon]} icon={BlueIconWithName(DESTINATIONS[key].name)}/>
-                            )
-                        })
-                        : <Marker position={[DESTINATIONS[this.state.selectedPath].lat, DESTINATIONS[this.state.selectedPath].lon]} icon={BlueIconWithName(DESTINATIONS[this.state.selectedPath].name)}/>
-                        
-                    }
+                    {Object.keys(this.state.routes).map(key=>{
+                        return(
+                            <Marker position={[DESTINATIONS[key].lat, DESTINATIONS[key].lon]} icon={NodeIcon(DESTINATIONS[key].name)}>
+                                    
+                            </Marker>
+                    )
+                    })}
                     
                             
                 </Map>
