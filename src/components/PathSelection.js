@@ -14,20 +14,23 @@ const API_KEY = "5b3ce3597851110001cf6248eba327ba0377440cac6ca3c8e26ecc63"
 const PROFILE = "foot-walking"
 
 
+
 const DESTINATIONS = [
-    { lat: -34.930806, lon: -57.964902, name: 'Parque Vucetich' },
-    { lat: -34.901461, lon: -57.980792, name: 'Opcion 2' },
-    { lat: -34.862425, lon: -57.913978, name: 'Opcion 3' }
+     
+    { lat: -34.91409909106378, lon: -57.94983868465823, name: 'Pasaje Dardo Rocha' },
+    { lat: -34.9161731914128, lon: -57.987197189264975, name: 'Estadio único' },
+    { lat: -34.939472246440424, lon: -57.93923180754026, name: 'Meridiano V' },
+    //{ lat: -34.90384739409903, lon: -57.94775250865569, name: 'Hipódromo' }
 ];
 
-const latlngs2 = [[-34.898167, -57.966339], [-34.911007, -57.961710], [-34.924228, -57.958756], [-34.933330, -57.953126],
+const latlngs = [[-34.898167, -57.966339], [-34.911007, -57.961710], [-34.924228, -57.958756], [-34.933330, -57.953126],
     [-34.946957, -57.949897], [-34.948637, -57.947721], [-34.949158, -57.958361], [-34.941221, -57.957698], [-34.939513, -57.957903],
     [-34.936037, -57.960122], [-34.943283, -57.966192], [-34.941551, -57.968379], [-34.931148, -57.966453], [-34.937087, -57.974469],
     [-34.932746, -57.973666], [-34.932718, -57.973651], [-34.926169, -57.966523], [-34.913037, -57.970329], [-34.911490, -57.974724],
     [-34.913453, -57.978931], [-34.925203, -57.981481], [-34.929650, -57.980080], [-34.932301, -57.981089], [-34.925913, -57.990550],
     [-34.922713, -57.987010], [-34.916180, -57.986458]];
-const latlngs = [[-34.918269,-57.960055], [-34.918691,-57.950092], [-34.924885,-57.948547], [-34.924322,-57.957135]]
-const POLYGON = L.polygon(latlngs2, {color:'red'}).toGeoJSON()
+
+const POLYGON = L.polygon(latlngs, {color:'red'}).toGeoJSON()
 
 const COLORS = ["#d44141", "#41b7d4", "#6841d4"]
 
@@ -62,7 +65,9 @@ export default class PathSelection extends React.Component {
                     alert("No se puede calcular la distancia.")
                     console.log("ERROR AL CALCULAR DISTANCIA: ", response)
                 })
+
             })
+            
         }
 
         document.title = "Camino de evacuación - Prevención de inundaciones"
@@ -205,7 +210,10 @@ export default class PathSelection extends React.Component {
             { !this.state.print ?
                 <h1>Seleccioná tu camino de evacuación</h1>
                 :
-                <h1>Lo que veas ahora en el mapa es lo que se va a imprimir. Asegurá que se vea claro el camino</h1>
+                <div>
+                    <h1>Impresión de mapa</h1>
+                    <h2>Lo que veas ahora en el mapa es lo que se va a imprimir. Asegurá que se vea claro el camino. Si no tenés impresora se guardará como pdf</h2>
+                </div>
             }
             <div id='map-container'>
                 <Map
@@ -244,7 +252,7 @@ export default class PathSelection extends React.Component {
                 </Map>
             </div>
             <br/>
-            { Object.keys(this.state.routes).filter(key => !this.state.print ||  key === this.state.selectedPath).map(key =>
+            { !this.state.print && Object.keys(this.state.routes).filter(key => !this.state.print ||  key === this.state.selectedPath).map(key =>
                 <>
                 <Button 
                     className={'button inline '+(this.state.selectedPath === key || this.state.mouseOverPath === key ? 'selected' : '')} 
@@ -253,8 +261,7 @@ export default class PathSelection extends React.Component {
                     </Button>
                 </>
             ) }
-            <br/>
-            <br/>
+            <br/>        
             { !!this.state.selectedPath && !this.state.print &&
                 <Button className='button' onClick={() => this.setState({ print: true })}>Seleccionar camino</Button>
             }
