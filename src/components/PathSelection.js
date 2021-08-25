@@ -6,7 +6,7 @@ import {Button} from "reakit";
 import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
 import {RedIcon, BlueIcon, PolygonWithText, IconHouse, NodeIcon} from './CustomIcon';
-import {decodePolyline} from "../utils";
+import {decodePolyline, getDirectionsFromResponse, translateDirection} from "../utils";
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -43,6 +43,7 @@ export default class PathSelection extends React.Component {
         this.state = {
             loading: true,
             routes: {},
+            directions: {},
             mouseOverPath: null,
             selectedPath:null ,
             print: false,
@@ -57,10 +58,12 @@ export default class PathSelection extends React.Component {
             DESTINATIONS.forEach((dest, index) => {
                 this.getRoute2(this.props.location.state.lon, this.props.location.state.lat, dest.lon, dest.lat)
                     .then(response => {
-                        console.log("DISTANCIA CALCULADA: ", JSON.stringify(this.parseResponse(response.data)))
                         let routes = {...this.state.routes};
+                        let directions = {...this.state.directions};
                         routes[index] = this.parseResponse(response.data);
-                        this.setState({routes});
+                        directions[index] = getDirectionsFromResponse(response.data);
+                        console.log("Direcciones ("+index+"): ", directions[index].map(translateDirection));
+                        this.setState({routes, directions});
                     }).catch(response => {
                     alert("No se puede calcular la distancia.")
                     console.log("ERROR AL CALCULAR DISTANCIA: ", response)
@@ -208,7 +211,10 @@ export default class PathSelection extends React.Component {
             goBack={() => {this.props.history.push('/address-selection', { bigFont: this.state.bigFont }); window.location.reload()}}
             containerClass='map-container'>
             { !this.state.print ?
-                <h1>Seleccioná tu camino de evacuación</h1>
+                <>
+                    <h1>Seleccioná tu camino de evacuación</h1>
+                    <h2>Al seleccionar un camino podrás acceder a las indicaciones escritas.</h2>
+                </>
                 :
                 <div>
                     <h1>Impresión de mapa</h1>
@@ -270,6 +276,18 @@ export default class PathSelection extends React.Component {
                 <Button className='button' onClick={() => this.setState({ print: false })}>Ver de vuelta los caminos</Button>
                 <Button className='button' onClick={this.print}>Imprimir y finalizar</Button>
             </>
+            }
+            { !!this.state.selectedPath &&
+            <div id="directions">
+                <h2>Indicaciones</h2>
+                <ol style={{textAlign: "left"}}>
+                { this.state.directions[this.state.selectedPath].map((direction) => (
+                    <li style={{padding: "5px", marginLeft: "20px"}}>
+                        {translateDirection(direction)}
+                    </li>
+                )) }
+                </ol>
+            </div>
             }
         </Template>
     )
