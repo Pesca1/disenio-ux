@@ -84,9 +84,9 @@ export const translateDirection = ({name, instruction, distance}) => {
     if (instruction.indexOf("Head north on") !== -1)
         return "Avance " + distance + " metros hacia el norte por " + name + ".";
 
-    if (instruction.indexOf("Turn left onto") !== -1)
+    if ((instruction.indexOf("Turn left onto") !== -1)  || (instruction.indexOf("Turn sharp left onto") !== -1))
         return "Gire a la izquierda en " + name + " y continue " + distance + " metros.";
-    if (instruction.indexOf("Turn right onto") !== -1)
+    if ((instruction.indexOf("Turn right onto") !== -1) || (instruction.indexOf("Turn sharp right onto") !== -1))
         return "Gire a la derecha en " + name + " y continue " + distance + " metros.";
 
     if (instruction.indexOf("Turn slight right onto") !== -1)
@@ -94,9 +94,9 @@ export const translateDirection = ({name, instruction, distance}) => {
     if (instruction.indexOf("Turn slight left onto") !== -1)
         return "Gire ligeramente a la izquierda en " + name + " y continue " + distance + " metros.";
 
-    if (instruction.indexOf("Turn right") !== -1)
+    if ((instruction.indexOf("Turn right") !== -1) || (instruction.indexOf("Turn sharp right") !== -1))
         return "Gire a la derecha y continue " + distance + " metros.";
-    if (instruction.indexOf("Turn left") !== -1)
+    if ((instruction.indexOf("Turn left") !== -1) || (instruction.indexOf("Turn sharp left") !== -1))
         return "Gire a la izquierda y continue " + distance + " metros.";
 
     if (instruction.indexOf("Turn slight right") !== -1)
