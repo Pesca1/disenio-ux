@@ -34,6 +34,9 @@ const POLYGON = L.polygon(latlngs, {color:'red'}).toGeoJSON()
 
 const COLORS = ["#d44141", "#41b7d4", "#6841d4"]
 
+const CENTER = [-34.911804, -57.954493];
+const ZOOM = 13;
+
 const PrintControl = withLeaflet(PrintControlDefault);
 
 export default class PathSelection extends React.Component {
@@ -47,6 +50,8 @@ export default class PathSelection extends React.Component {
             mouseOverPath: null,
             selectedPath:null ,
             print: false,
+            center: CENTER,
+            zoom: ZOOM,
             bigFont
         }
     }
@@ -73,6 +78,7 @@ export default class PathSelection extends React.Component {
             
         }
 
+        document.onkeydown = this.checkKey;
         document.title = "Camino de evacuación - Prevención de inundaciones"
     }
 
@@ -223,7 +229,7 @@ export default class PathSelection extends React.Component {
             }
             <div id='map-container'>
                 <Map
-                    center={[-34.911804, -57.954493]} zoom={13}
+                    center={this.state.center} zoom={this.state.zoom}
                     crollWheelZoom={true} onClick={this.pointInMap}>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
