@@ -305,7 +305,7 @@ form div[role='alert']:not(:empty) {
         padding: 0;
     }
 
-    #map-container, #map-container *, .container, #root, .background {
+    #map-container, #map-container *, .container, #root, .background, #directions, #directions * {
         display: block !important;
     }
 }
