@@ -45,7 +45,7 @@ const AddressScreen = (props) => {
                 <div>
                             <FormLabel {...formProps} name='calle'>Calle</FormLabel>
                             <br/>                            
-                            <FormInput {...formProps} name='calle' placeholder="Av. 7" />                            
+                            <FormInput {...formProps} name='calle' placeholder="Av. 7, Calle 115, Diag 75" />                            
                             <FormMessage {...formProps} name='calle'/>
                 </div>
                 <div>
