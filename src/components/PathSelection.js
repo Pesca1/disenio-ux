@@ -7,7 +7,7 @@ import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
 import {RedIcon, BlueIcon, PolygonWithText, IconHouse, NodeIcon} from './CustomIcon';
 import {decodePolyline, getDirectionsFromResponse, translateDirection} from "../utils";
-import {multipolygons} from "../constants"
+import {multipolygons, multipolygons_geojson} from "../constants"
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -162,7 +162,12 @@ export default class PathSelection extends React.Component {
         console.log("Polygon:", POLYGON);
         return axios.post(requestUrl, {
             coordinates: [[startLongitude, startLatitude], [endLongitude, endLatitude]],
-            options: { avoid_polygons: POLYGON.geometry }
+            options: {
+                avoid_polygons:  {
+                    "type": "MultiPolygon",
+                    "coordinates": multipolygons_geojson.map(a1 => a1.map(a2 => a2.map(a3 => [a3[1], a3[0]]))) // Invertir coordenadas
+                }
+            }
         }, {
             headers: { Authorization: API_KEY }
         })
