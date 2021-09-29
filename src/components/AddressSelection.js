@@ -74,7 +74,8 @@ export default class AddressSelection extends React.Component {
         }
 
         document.onkeydown = this.checkKey;
-        document.title = "Selección de domicilio - Prevención de inundaciones"
+        console.log(this.state.zoom);
+        document.title = "Selección de domicilio - Prevención de inundaciones";
     }
 
     checkKey = (e) => {

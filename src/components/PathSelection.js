@@ -7,6 +7,7 @@ import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
 import {RedIcon, BlueIcon, PolygonWithText, IconHouse, NodeIcon} from './CustomIcon';
 import {decodePolyline, getDirectionsFromResponse, translateDirection} from "../utils";
+import {multipolygons} from "../constants"
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -30,12 +31,49 @@ const latlngs = [[-34.898167, -57.966339], [-34.911007, -57.961710], [-34.924228
     [-34.913453, -57.978931], [-34.925203, -57.981481], [-34.929650, -57.980080], [-34.932301, -57.981089], [-34.925913, -57.990550],
     [-34.922713, -57.987010], [-34.916180, -57.986458]];
 
+    
+    const COLORS = ["#d44141", "#41b7d4", "#6841d4"]
+    
+    const CENTER = [-34.911804, -57.954493];
+    const ZOOM = 13;
+    /*
+    const multipolygons= [
+        [
+            [-34.921126527452685, -57.981719970703125],
+            [-34.921056151334476, -57.9814624786377],
+            [-34.916059292689354, -57.98086166381837]
+        ],
+        
+        [
+            [-34.92865642338382, -57.9880714416504],
+            [-34.92612307758587, -57.98480987548829],
+            [-34.929500854600626, -57.9800033569336],
+            [-34.93104895592451, -57.982921600341804]
+        ],
+        
+        [
+            [-34.937029982009804, -57.95880317687989],
+            [-34.93372288031159, -57.95579910278321],
+            [-34.95103091375892, -57.95373916625977],
+            [-34.94716154856814, -57.96146392822266]
+        ],
+        
+        [
+            [-34.91739651002616, -57.96172142028809],
+            [-34.92795272406395, -57.959425449371345],
+            [-34.930151764398296, -57.956678867340095],
+            [-34.932702577342354, -57.959543466568],
+            [-34.93294885853134, -57.9545545578003],
+            [-34.9369596195322, -57.959403991699226],
+            [-34.93323032184192, -57.961206436157234],
+            [-34.932526661754665, -57.969660758972175],
+            [-34.92608789167682, -57.965927124023445],
+            [-34.92608789167682, -57.965927124023445]
+        ]
+    ];
+*/
+latlngs.forEach(latlng => latlng.reverse())
 const POLYGON = L.polygon(latlngs, {color:'red'}).toGeoJSON()
-
-const COLORS = ["#d44141", "#41b7d4", "#6841d4"]
-
-const CENTER = [-34.911804, -57.954493];
-const ZOOM = 13;
 
 const PrintControl = withLeaflet(PrintControlDefault);
 
@@ -248,6 +286,9 @@ export default class PathSelection extends React.Component {
                         data={POLYGON}
                         style={this.getPolygonStyles}
                     />
+                    <Polygon pathOptions={ {color: 'purple'} } positions={multipolygons}/>
+                        
+                    
                         <Marker 
                             icon={IconHouse}
                             position={[this.props.location.state.lat, this.props.location.state.lon]}
