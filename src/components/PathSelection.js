@@ -1,11 +1,10 @@
 import React from 'react';
 import Template from "./Template";
-import {Map, TileLayer, Marker, GeoJSON, withLeaflet, Polygon, Popup} from "react-leaflet";
+import {Map, TileLayer, Marker, GeoJSON, Polygon} from "react-leaflet";
 import axios from "axios";
 import {Button} from "reakit";
-import PrintControlDefault from 'react-leaflet-easyprint';
 import L from 'leaflet';
-import {RedIcon, BlueIcon, PolygonWithText, IconHouse, NodeIcon} from './CustomIcon';
+import {IconHouse, NodeIcon} from './CustomIcon';
 import {decodePolyline, getDirectionsFromResponse, translateDirection} from "../utils";
 import {multipolygons, multipolygons_geojson} from "../constants"
 
@@ -74,8 +73,6 @@ const latlngs = [[-34.898167, -57.966339], [-34.911007, -57.961710], [-34.924228
 */
 latlngs.forEach(latlng => latlng.reverse())
 const POLYGON = L.polygon(latlngs, {color:'red'}).toGeoJSON()
-
-const PrintControl = withLeaflet(PrintControlDefault);
 
 export default class PathSelection extends React.Component {
     constructor(props) {
