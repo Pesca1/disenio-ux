@@ -29,6 +29,7 @@
     "AddressSelection_button2": "No :( this is not my address",
     "AddressSelection_button3": "Yes! this is my address",
     "AddressSelection_title": "Addess confirmation - Flood prevention",
+    "AddressSelection_alert": "There was an error locating your address! Please select it on the map.",
 
     "PathSelection_h1_1": "Select a evacuation route",
     "PathSelection_h2_1": "When you select the route, written indications will print below",
@@ -53,6 +54,6 @@
     "Template_goback": "Go back",
     "Template_bigfont": "smaller font",
     "Template_littlefont": "bigger font",
-    "Template_language": "language: "
+    "Template_language": "english "
 
 }

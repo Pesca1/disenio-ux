@@ -76,7 +76,7 @@ class AddressSelection extends React.Component {
 
         document.onkeydown = this.checkKey;
         console.log(this.state.zoom);
-        document.title = "Selección de domicilio - Prevención de inundaciones";
+        document.title = this.props.t('AddressSelection_title')
     }
 
     checkKey = (e) => {
@@ -144,13 +144,13 @@ class AddressSelection extends React.Component {
 
     renderTitle = () => {
         if (this.state.addressSearchSkipped)
-            return <h1>{this.props.t('AddressSelection_h1_1')}</h1>;
+            return <h1>{this.props.t('AddressSelection_h1_1', '')}</h1>;
         if (this.state.loading || !this.state.addressNotFound)
-            return <h1>{this.props.t('AddressSelection_h1_2')}</h1>;
+            return <h1>{this.props.t('AddressSelection_h1_2', '')}</h1>;
         else if (this.state.addressNotFound && this.state.results.length === 0)
-            return <h1>{this.props.t('AddressSelection_h1_3')}<br/> {this.props.t('AddressSelection_h1_1')}</h1>;
+            return <h1>{this.props.t('AddressSelection_h1_3')}<br/> {this.props.t('AddressSelection_h1_1', '')}</h1>;
         else
-            return <h1>{this.props.t('AddressSelection_h1_1')}</h1>;
+            return <h1>{this.props.t('AddressSelection_h1_1', '')}</h1>;
     }
     
     render = () => (
@@ -158,7 +158,7 @@ class AddressSelection extends React.Component {
             goBack={() => {this.props.history.push('/address', { bigFont: this.state.bigFont }); window.location.reload()}}
             containerClass='map-container'>
             {this.renderTitle()}
-            <h2>{this.props.t('AddressSelection_h2')}</h2>
+            <h2>{this.props.t('AddressSelection_h2', '')}</h2>
             <Map
                 center={this.state.center} zoom={this.state.zoom}
                 crollWheelZoom={true} onClick={this.pointInMap}>
@@ -182,7 +182,7 @@ class AddressSelection extends React.Component {
                 }
             </Map>
             { (this.state.addressNotFound || this.state.addressSearchSkipped) && this.state.selectedMarker != null &&
-            <Button className='button' onClick={this.calculatePath}>{this.props.t('AddressSelection_button1')}</Button>
+            <Button className='button' onClick={this.calculatePath}>{this.props.t('AddressSelection_button1', '')}</Button>
             }
             <br/>
             { (!this.state.addressNotFound && !this.state.addressSearchSkipped) && this.state.results.length > 0 &&
@@ -190,12 +190,12 @@ class AddressSelection extends React.Component {
                     <Button
                         onClick={() => this.setState({center: CENTER, zoom: ZOOM,addressNotFound: true, selectedMarker: null})}
                         className='button negative'>
-                        {this.props.t('AddressSelection_button2')}
+                        {this.props.t('AddressSelection_button2', '')}
                     </Button>
                     <Button
                         onClick={this.calculatePath}
                         className='button positive'>
-                        {this.props.t('AddressSelection_button3')}
+                        {this.props.t('AddressSelection_button3', '')}
                     </Button>
                 </>
             }

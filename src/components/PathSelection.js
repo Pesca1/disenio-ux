@@ -116,7 +116,7 @@ class PathSelection extends React.Component {
         }
 
         document.onkeydown = this.checkKey;
-        document.title = this.props.t('PathSelection_title')
+        document.title = this.props.t('PathSelection_title', '')
     }
 
     getRoute = (startLongitude, startLatitude, endLongitude, endLatitude) => {
@@ -260,13 +260,13 @@ class PathSelection extends React.Component {
             containerClass='map-container'>
             { !this.state.print ?
                 <>
-                    <h1>{this.props.t('PathSelection_h1_1')}</h1>
-                    <h2>{this.props.t('PathSelection_h2_1')}</h2>
+                    <h1>{this.props.t('PathSelection_h1_1', '')}</h1>
+                    <h2>{this.props.t('PathSelection_h2_1', '')}</h2>
                 </>
                 :
                 <div>
-                    <h1>{this.props.t('PathSelection_h1_2')}</h1>
-                    <h2>{this.props.t('PathSelection_h2_2')}</h2>
+                    <h1>{this.props.t('PathSelection_h1_2', '')}</h1>
+                    <h2>{this.props.t('PathSelection_h2_2', '')}</h2>
                 </div>
             }
             <div id='map-container'>
@@ -320,17 +320,17 @@ class PathSelection extends React.Component {
             ) }
             <br/>        
             { !!this.state.selectedPath && !this.state.print &&
-                <Button className='button' onClick={() => this.setState({ print: true })}>{this.props.t('PathSelection_button1')}</Button>
+                <Button className='button' onClick={() => this.setState({ print: true })}>{this.props.t('PathSelection_button1', '')}</Button>
             }
             { !!this.state.selectedPath && this.state.print &&
             <>
-                <Button className='button' onClick={() => this.setState({ print: false })}>{this.props.t('PathSelection_button2')}</Button>
-                <Button className='button' onClick={this.print}>{this.props.t('PathSelection_button3')}</Button>
+                <Button className='button' onClick={() => this.setState({ print: false })}>{this.props.t('PathSelection_button2', '')}</Button>
+                <Button className='button' onClick={this.print}>{this.props.t('PathSelection_button3', '')}</Button>
             </>
             }
             { !!this.state.selectedPath &&
             <div id="directions">
-                <h2>{this.props.t('PathSelection_h2_3')}</h2>
+                <h2>{this.props.t('PathSelection_h2_3', '')}</h2>
                 <ol style={{textAlign: "left"}}>
                 { this.state.directions[this.state.selectedPath].map((direction) => {
                     if (i18next.language==="es"){

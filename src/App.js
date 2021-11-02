@@ -1,4 +1,5 @@
 import './App.css';
+import { Suspense } from 'react';
 import {BrowserRouter, Switch, Route} from "react-router-dom";
 import MainScreen from "./components/MainScreen";
 import AddressScreen from "./components/AddressScreen";
@@ -38,6 +39,7 @@ function App() {
   */
  
   return (
+    <Suspense>
     <BrowserRouter>
       <Helmet>
         <html lang="es" />
@@ -51,6 +53,7 @@ function App() {
       </Switch>
       
     </BrowserRouter>
+    </Suspense>
   );
 }
 

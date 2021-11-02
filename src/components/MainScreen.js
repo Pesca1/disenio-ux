@@ -26,20 +26,20 @@ class MainScreen extends React.Component {
     
     render = () => (
         <Template bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
-            title={<>{this.props.t('mainScreen_title')}<br/>{this.props.t('mainScreen_subtitle')}</>}>
-            <h2>{this.props.t('mainScreen_h2')}</h2>
+            title={<>{this.props.t('mainScreen_title', '')}<br/>{this.props.t('mainScreen_subtitle', '')}</>}>
+            <h2>{this.props.t('mainScreen_h2', '')}</h2>
             <p className='description'>
-            {this.props.t('mainScreen_p')}
+            {this.props.t('mainScreen_p', '')}
             </p>
-            <h3>{this.props.t('mainScreen_h3')}</h3>
+            <h3>{this.props.t('mainScreen_h3', '')}</h3>
             <ol>                
-                <li>{this.props.t('mainScreen_li1')}</li>
-                <li>{this.props.t('mainScreen_li2')}</li>
-                <li>{this.props.t('mainScreen_li3')}</li>
-                <li>{this.props.t('mainScreen_li4')}</li>
+                <li>{this.props.t('mainScreen_li1', '')}</li>
+                <li>{this.props.t('mainScreen_li2', '')}</li>
+                <li>{this.props.t('mainScreen_li3', '')}</li>
+                <li>{this.props.t('mainScreen_li4', '')}</li>
             </ol>
             <Button className='button' onClick={() => this.goTo('address', { bigFont: this.state.bigFont })}>
-            {this.props.t('mainScreen_button')}
+            {this.props.t('mainScreen_button', '')}
             </Button>
         </Template>
     );

@@ -6,19 +6,24 @@ import { withTranslation } from 'react-i18next';
 
 
 function LanguageMenu(props){
-        const menu =  useMenuState();
+        
         
         return (
-            <div className="language-option">
-                <label>
-                    
-                    <MenuButton style={{fontWeight: 'bold'}} {...menu} >{props.t('Template_language')}</MenuButton>
-                    <Menu {...menu} aria-label="Preferences">
-                        <MenuItem {...menu} onClick={() => i18next.changeLanguage('en')}>English</MenuItem>                    
-                        <MenuItem {...menu} onClick={() => i18next.changeLanguage('es')}>Español</MenuItem>
-                    </Menu>
-                </label>
-                </div>
+            <div>                    
+                    <Button className="language-option" 
+                            onClick={() => {
+                                if (i18next.language === 'es') {
+                                    i18next.changeLanguage('en')
+                                } else {
+                                    i18next.changeLanguage('es')
+                                }
+                                }}>                
+                        <h4>                            
+                            {props.t('Template_language')}
+                        </h4>
+                    </Button>   
+                                
+            </div>
         )
         
 }

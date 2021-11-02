@@ -20,9 +20,9 @@ const AddressScreen = (props) => {
         values: { calle: '', numero: '', ciudad: ''},
         onValidate: (values) => {
             if (!values.calle)
-                throw { calle: t('AddressScreen_validate1') }
+                throw { calle: t('AddressScreen_validate1', '') }
             if (!values.numero)
-                throw { numero: t('AddressScreen_validate2') }            
+                throw { numero: t('AddressScreen_validate2', '') }            
         },
         onSubmit: (values) => {
             
@@ -34,34 +34,34 @@ const AddressScreen = (props) => {
     
 
     useEffect(() => {
-        document.title = t('AddressScreen_title')
+        document.title = t('AddressScreen_title', '')
     })
 
 
     return (
         <Template bigFont={bigFont} toggleBigFont={() => setBigFont(!bigFont)}
             goBack={() => {props.history.push('/', { bigFont }); window.location.reload()}}>
-            <h1>{t('AddressScreen_h1')}</h1>
+            <h1>{t('AddressScreen_h1', '')}</h1>
             <Form {...formProps}>            
             <div className='description'>                         
                 <div>
-                            <FormLabel {...formProps} name='calle'>{t('AddressScreen_label1')}</FormLabel>
+                            <FormLabel {...formProps} name='calle'>{t('AddressScreen_label1', '')}</FormLabel>
                             <br/>                            
                             <FormInput {...formProps} name='calle' placeholder="Av. 7, Calle 115, Diag 75" />                            
                             <FormMessage {...formProps} name='calle'/>
                 </div>
                 <div>
                       
-                            <FormLabel {...formProps} name='numero'>{t('AddressScreen_label2')}</FormLabel>
+                            <FormLabel {...formProps} name='numero'>{t('AddressScreen_label2', '')}</FormLabel>
                             <br/>                            
                             <FormInput {...formProps} name='numero' placeholder="815" />                            
                             <FormMessage {...formProps} name='numero' />
                 </div>
                 <br/>                
                         <div className='center-content mt-1'>                            
-                            <FormSubmitButton {...formProps} className='button'>{t('AddressScreen_submitbutton')}</FormSubmitButton>                            
+                            <FormSubmitButton {...formProps} className='button'>{t('AddressScreen_submitbutton', '')}</FormSubmitButton>                            
                             <br/>      
-                            <h3>{t('AddressScreen_h3')}</h3>                    
+                            <h3>{t('AddressScreen_h3', '')}</h3>                    
                             <Button className='button' onClick={() => props.history.push('/address-selection', { skipSearch: true, bigFont })}>{t('AddressScreen_button')}</Button>                            
                         </div>
                     

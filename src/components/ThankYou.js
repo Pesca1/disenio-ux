@@ -15,13 +15,13 @@ class ThankYou extends React.Component {
 
     renderExtraContent = () => (
         <>
-            <h3>{this.props.t('ThankYou_h3')}</h3>
+            <h3>{this.props.t('ThankYou_h3', '')}</h3>
             <ul className='description'>
-                <li> {this.props.t('ThankYou_l1_1')}
+                <li> {this.props.t('ThankYou_l1_1', '')}
                 <a href='https://www.laplata.gob.ar/#/gobierno/programa/ejes?categoria=comoActuar'> Clickeá acá</a></li>
             
             
-                <li> {this.props.t('ThankYou_l1_2')}
+                <li> {this.props.t('ThankYou_l1_2', '')}
                 <a href='https://unlp.edu.ar/inundaciones/video-inundaciones-urbanas-en-la-plata-berisso-y-ensenada-9631'> Clickeá acá</a></li>
             </ul>
         
@@ -31,14 +31,14 @@ class ThankYou extends React.Component {
     render = () => (
         <Template
             bigFont={this.state.bigFont} toggleBigFont={this.toggleBigFont}
-            title={<> {this.props.t('ThankYou_title')}<br/>{this.props.t('ThankYou_subtitle')}</>}
+            title={<> {this.props.t('ThankYou_title', '')}<br/>{this.props.t('ThankYou_subtitle', '')}</>}
             extraContent={this.renderExtraContent()}>
-            <h2>{this.props.t('ThankYou_h2')}</h2>
+            <h2>{this.props.t('ThankYou_h2', '')}</h2>
             <p className='description'>
-            {this.props.t('ThankYou_p')}
+            {this.props.t('ThankYou_p', '')}
             </p>
             <Button className='button' onClick={() => this.props.history.push('/', { bigFont: this.state.bigFont })}>
-                {this.props.t('ThankYou_button')}
+                {this.props.t('ThankYou_button', '')}
             </Button>
         </Template>
     );

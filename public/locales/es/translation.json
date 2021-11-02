@@ -29,6 +29,7 @@
     "AddressSelection_button2": "No :( Mi domicilio no es el del mapa",
     "AddressSelection_button3": "Sí! Mi domicilio es el indicado",
     "AddressSelection_title": "Selección de domicilio - Prevención de inundaciones",
+    "AddressSelection_alert": "Ocurrió un error al intentar ubicar su dirección! Cliquéelo en el mapa",
 
     "PathSelection_h1_1": "Seleccioná tu camino de evacuación",
     "PathSelection_h2_1": "Al seleccionar un camino podrás acceder a las indicaciones escritas",
@@ -52,7 +53,7 @@
     "Template_goback": "Volver",
     "Template_bigfont": "Achicar letra",
     "Template_littlefont": "Agrandar letra",
-    "Template_language": "idioma: "
+    "Template_language": "español "
     
 
 
