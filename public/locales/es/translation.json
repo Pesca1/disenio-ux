@@ -1,0 +1,60 @@
+{
+    "mainScreen_title": "Proyecto Citadine",
+    "mainScreen_subtitle": "Caminos a refugios",
+    "mainScreen_h2": "¿Que hacer en una inundacion?",
+    "mainScreen_p":"Durante una inundación es importante saber a dónde ir en caso de precisar ayuda. Los centros de evacuación son puntos de encuentro donde pueden ofrecerte primeros auxilios. Si no tenés un lugar seguro preestablecido podés ir a uno de estos. Esta aplicación sirve para trazar caminos de una ubicaicón a centros evacuación, evitando zonas con probabilidad de inundarse.",
+    "mainScreen_h3": "Pasos",
+    "mainScreen_li1":"Ingresar dirección de tu casa",
+    "mainScreen_li2":"Confirmar que el marcador del mapa sea tu dirección. Si no seleccionar manualmente.",
+    "mainScreen_li3":"Seleccionar el centro de evacuación",
+    "mainScreen_li4":"Imprimir o guardar el mapa",
+    "mainScreen_button": "¡Comencemos!",
+
+    "AddressScreen_h1": "Ingresá tu domicilio",
+    "AddressScreen_submitbutton": "Buscá mi domicilio",
+    "AddressScreen_h3": "Si no, podés seleccionar tu dirección directamente en el mapa",
+    "AddressScreen_label1": "Calle",
+    "AddressScreen_validate1": "Ingresá la calle",
+    "AddressScreen_label2": "Número",
+    "AddressScreen_validate2": "Ingresá el número",
+    "AddressScreen_title": "Ingresar domicilio - Prevención de inundaciones",
+    "AddressScreen_button": "Señalar en el mapa",
+
+    "AddressSelection_h1_1": "¿Podrías señalar tu domicilio en el mapa?",
+    "AddressSelection_h1_2": "¿Tu domicilio es el marcado en el mapa?",
+    "AddressSelection_h1_3": "No encontramos tu domicilio",
+    "AddressSelection_h1_4": "¿Podrías señalar tu domicilio en el mapa?",
+    "AddressSelection_h2": "Podés navegar con el mouse o las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'",
+    "AddressSelection_button1": "Este es mi domicilio",
+    "AddressSelection_button2": "No :( Mi domicilio no es el del mapa",
+    "AddressSelection_button3": "Sí! Mi domicilio es el indicado",
+    "AddressSelection_title": "Selección de domicilio - Prevención de inundaciones",
+
+    "PathSelection_h1_1": "Seleccioná tu camino de evacuación",
+    "PathSelection_h2_1": "Al seleccionar un camino podrás acceder a las indicaciones escritas",
+    "PathSelection_h1_2": "Impresión de mapa",
+    "PathSelection_h2_2": "Lo que veas ahora en el mapa es lo que se va a imprimir. Asegurá que se vea claro el camino. Si no tenés impresora se guardará como pdf",
+    "PathSelection_button1" : "Seleccionar camino",
+    "PathSelection_button2" : "Ver de vuelta los caminos",
+    "PathSelection_button3" : "Imprimir y finalizar",
+    "PathSelection_h2_3" : "Indicaciones",
+    "PathSelection_title": "Camino de evacuación - Prevención de inundaciones",
+
+    "ThankYou_button": "Empezar de nuevo",
+    "ThankYou_p": "Asegurate de tener el mapa impreso o digital accesible. ",
+    "ThankYou_h2": "Listo",
+    "ThankYou_h3": "Más información",
+    "ThankYou_l1_1": " Instrucciones de la municipalidad",
+    "ThankYou_l1_2": " Video informativo sobre la inundación de 2013",
+    "ThankYou_title": "Proyecto citadine",
+    "ThankYou_subtitle": "Caminos a refugios",
+
+    "Template_goback": "Volver",
+    "Template_bigfont": "Achicar letra",
+    "Template_littlefont": "Agrandar letra",
+    "Template_language": "idioma: "
+    
+
+
+
+}

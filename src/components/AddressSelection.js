@@ -4,6 +4,7 @@ import { Map, TileLayer, Marker } from "react-leaflet";
 import axios from "axios";
 import { RedIcon, BlueIcon,BlueIconWithName } from "./CustomIcon";
 import {Button} from "reakit";
+import { withTranslation } from 'react-i18next';
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -20,7 +21,7 @@ const ZOOM = 13;
 /* Nominatim */
 const GEOCODE_URL = "https://nominatim.openstreetmap.org/search.php?polygon_geojson=1&format=jsonv2";
 
-export default class AddressSelection extends React.Component {
+class AddressSelection extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -143,13 +144,13 @@ export default class AddressSelection extends React.Component {
 
     renderTitle = () => {
         if (this.state.addressSearchSkipped)
-            return <h1>¿Podrías señalar tu domicilio en el mapa?</h1>;
+            return <h1>{this.props.t('AddressSelection_h1_1')}</h1>;
         if (this.state.loading || !this.state.addressNotFound)
-            return <h1>¿Tu domicilio es el marcado en el mapa?</h1>;
+            return <h1>{this.props.t('AddressSelection_h1_2')}</h1>;
         else if (this.state.addressNotFound && this.state.results.length === 0)
-            return <h1>No encontramos tu domicilio :(<br/> ¿Podrías señalarlo en el mapa?</h1>;
+            return <h1>{this.props.t('AddressSelection_h1_3')}<br/> {this.props.t('AddressSelection_h1_1')}</h1>;
         else
-            return <h1>¿Podrías señalar tu domicilio en el mapa?</h1>;
+            return <h1>{this.props.t('AddressSelection_h1_1')}</h1>;
     }
     
     render = () => (
@@ -157,7 +158,7 @@ export default class AddressSelection extends React.Component {
             goBack={() => {this.props.history.push('/address', { bigFont: this.state.bigFont }); window.location.reload()}}
             containerClass='map-container'>
             {this.renderTitle()}
-            <h2>Podés navegar con el mouse o las flechas del teclado, hacer zoom con '+' y '-', y seleccionar un lugar con la teclar 'Enter'</h2>
+            <h2>{this.props.t('AddressSelection_h2')}</h2>
             <Map
                 center={this.state.center} zoom={this.state.zoom}
                 crollWheelZoom={true} onClick={this.pointInMap}>
@@ -181,7 +182,7 @@ export default class AddressSelection extends React.Component {
                 }
             </Map>
             { (this.state.addressNotFound || this.state.addressSearchSkipped) && this.state.selectedMarker != null &&
-            <Button className='button' onClick={this.calculatePath}>Este es mi domicilio</Button>
+            <Button className='button' onClick={this.calculatePath}>{this.props.t('AddressSelection_button1')}</Button>
             }
             <br/>
             { (!this.state.addressNotFound && !this.state.addressSearchSkipped) && this.state.results.length > 0 &&
@@ -189,15 +190,17 @@ export default class AddressSelection extends React.Component {
                     <Button
                         onClick={() => this.setState({center: CENTER, zoom: ZOOM,addressNotFound: true, selectedMarker: null})}
                         className='button negative'>
-                        No :( Mi domicilio no es el del mapa
+                        {this.props.t('AddressSelection_button2')}
                     </Button>
                     <Button
                         onClick={this.calculatePath}
                         className='button positive'>
-                        Sí! Mi domicilio es el indicado
+                        {this.props.t('AddressSelection_button3')}
                     </Button>
                 </>
             }
         </Template>
     )
 }
+
+export default withTranslation()(AddressSelection)

@@ -1,0 +1,58 @@
+{
+    "mainScreen_title": "Citadine Project",
+    "mainScreen_subtitle": "Routes to shelters",
+    "mainScreen_h2": "What to do during a flood?",
+    "mainScreen_p": "During a flood it's important to know where to go in need of assistance. Evacuation centers are meeting points where first aid is provided. If you don't have a safe place to go you can direct yourself to one of these centers. This app plots routes from a given location to any of the evacuation centers, avoiding at the same time areas estimated as flooded.",
+    "mainScreen_h3": "Steps",
+    "mainScreen_li1":"Enter a home address",
+    "mainScreen_li2":"Confirm marker is in the correct location. If not, select manually",
+    "mainScreen_li3":"Select evacuation center",
+    "mainScreen_li4":"Print or save map",
+    "mainScreen_button": "¡Let's begin!",
+
+    "AddressScreen_h1": "Enter your home address",
+    "AddressScreen_submitbutton": "Search my address",
+    "AddressScreen_h3": "Or you can select it manually in the map",
+    "AddressScreen_label1": "Street",
+    "AddressScreen_validate1": "Enter street",
+    "AddressScreen_label2": "Home Number",
+    "AddressScreen_validate2": "Enter home number",
+    "AddressScreen_title": "Enter home address - Flood prevention",
+    "AddressScreen_button": "Point in map",
+
+    "AddressSelection_h1_1": "Please select your home address on the map",
+    "AddressSelection_h1_2": "Is the marker on your address?",
+    "AddressSelection_h1_3": "We cannot find your address",
+    "AddressSelection_h1_4": "Please select your home address on the map",
+    "AddressSelection_h2": "You can navigate with the mouse or keyboard arrows, zooming with '+' and '-' and selecting a location with 'enter'",
+    "AddressSelection_button1": "This is my address",
+    "AddressSelection_button2": "No :( this is not my address",
+    "AddressSelection_button3": "Yes! this is my address",
+    "AddressSelection_title": "Addess confirmation - Flood prevention",
+
+    "PathSelection_h1_1": "Select a evacuation route",
+    "PathSelection_h2_1": "When you select the route, written indications will print below",
+    "PathSelection_h1_2": "Map printing",
+    "PathSelection_h2_2": "What you see know in the map is how it will be printed. If you can't print, you save it as a pdf.",
+    "PathSelection_button1" : "Select a route",
+    "PathSelection_button2" : "See routes again",
+    "PathSelection_button3" : "Print and finish",
+    "PathSelection_h2_3" : "Indications",
+    "PathSelection_title": "Evacuation route - Flood prevention",
+
+
+    "ThankYou_button": "Start again",
+    "ThankYou_p": "Make sure you keep the map at hand, either digitally or printed",
+    "ThankYou_h2": "Done",
+    "ThankYou_h3": "More information",
+    "ThankYou_l1_1": " City recommendations",
+    "ThankYou_l1_2": " Informative video on the 2013 flood",
+    "ThankYou_title": "Citadine Project",
+    "ThankYou_subtitle": "Routes to shelters",
+
+    "Template_goback": "Go back",
+    "Template_bigfont": "smaller font",
+    "Template_littlefont": "bigger font",
+    "Template_language": "language: "
+
+}

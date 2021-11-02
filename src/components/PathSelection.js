@@ -7,6 +7,8 @@ import L from 'leaflet';
 import {IconHouse, NodeIcon} from './CustomIcon';
 import {decodePolyline, getDirectionsFromResponse, translateDirection} from "../utils";
 import {multipolygons, multipolygons_geojson} from "../constants"
+import { withTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 /* Open route service */
 const URL = "https://api.openrouteservice.org/v2/directions/"
@@ -74,7 +76,7 @@ const latlngs = [[-34.898167, -57.966339], [-34.911007, -57.961710], [-34.924228
 latlngs.forEach(latlng => latlng.reverse())
 const POLYGON = L.polygon(latlngs, {color:'red'}).toGeoJSON()
 
-export default class PathSelection extends React.Component {
+class PathSelection extends React.Component {
     constructor(props) {
         super(props);
         let bigFont = this.props.location && this.props.location.state && this.props.location.state.bigFont || false;
@@ -114,7 +116,7 @@ export default class PathSelection extends React.Component {
         }
 
         document.onkeydown = this.checkKey;
-        document.title = "Camino de evacuación - Prevención de inundaciones"
+        document.title = this.props.t('PathSelection_title')
     }
 
     getRoute = (startLongitude, startLatitude, endLongitude, endLatitude) => {
@@ -258,13 +260,13 @@ export default class PathSelection extends React.Component {
             containerClass='map-container'>
             { !this.state.print ?
                 <>
-                    <h1>Seleccioná tu camino de evacuación</h1>
-                    <h2>Al seleccionar un camino podrás acceder a las indicaciones escritas.</h2>
+                    <h1>{this.props.t('PathSelection_h1_1')}</h1>
+                    <h2>{this.props.t('PathSelection_h2_1')}</h2>
                 </>
                 :
                 <div>
-                    <h1>Impresión de mapa</h1>
-                    <h2>Lo que veas ahora en el mapa es lo que se va a imprimir. Asegurá que se vea claro el camino. Si no tenés impresora se guardará como pdf</h2>
+                    <h1>{this.props.t('PathSelection_h1_2')}</h1>
+                    <h2>{this.props.t('PathSelection_h2_2')}</h2>
                 </div>
             }
             <div id='map-container'>
@@ -318,26 +320,39 @@ export default class PathSelection extends React.Component {
             ) }
             <br/>        
             { !!this.state.selectedPath && !this.state.print &&
-                <Button className='button' onClick={() => this.setState({ print: true })}>Seleccionar camino</Button>
+                <Button className='button' onClick={() => this.setState({ print: true })}>{this.props.t('PathSelection_button1')}</Button>
             }
             { !!this.state.selectedPath && this.state.print &&
             <>
-                <Button className='button' onClick={() => this.setState({ print: false })}>Ver de vuelta los caminos</Button>
-                <Button className='button' onClick={this.print}>Imprimir y finalizar</Button>
+                <Button className='button' onClick={() => this.setState({ print: false })}>{this.props.t('PathSelection_button2')}</Button>
+                <Button className='button' onClick={this.print}>{this.props.t('PathSelection_button3')}</Button>
             </>
             }
             { !!this.state.selectedPath &&
             <div id="directions">
-                <h2>Indicaciones</h2>
+                <h2>{this.props.t('PathSelection_h2_3')}</h2>
                 <ol style={{textAlign: "left"}}>
-                { this.state.directions[this.state.selectedPath].map((direction) => (
-                    <li style={{padding: "5px", marginLeft: "20px"}}>
-                        {translateDirection(direction)}
-                    </li>
-                )) }
+                { this.state.directions[this.state.selectedPath].map((direction) => {
+                    if (i18next.language==="es"){
+                        return (
+                            <li style={{padding: "5px", marginLeft: "20px"}}>
+                                {translateDirection(direction)}
+                            </li>
+                        )
+                    } else {
+                        
+                        return (<li style={{padding: "5px", marginLeft: "20px"}}>
+                                {direction.instruction + ` for ${direction.distance} meters`}
+                            </li>)
+                    }
+                }
+                
+                )}
                 </ol>
             </div>
             }
         </Template>
     )
 }
+
+export default withTranslation()(PathSelection)

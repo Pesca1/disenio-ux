@@ -179,6 +179,22 @@ a {
   display: inline;
 }
 
+.language-option {
+  padding: 10px;
+  background-color: #e8e8e8;
+  border-radius: 15px;
+  cursor: pointer;
+  position: absolute;
+  top: 45px;
+  right: 50px;
+  border: 2px solid;
+}
+
+.language-option h4 {
+  font-size: initial;
+  display: inline;
+}
+
 .container.map-container {
     height: fit-content;
     width: 700px;
